@@ -30,12 +30,10 @@ final class TaskListViewController: UIViewController {
         super.viewDidLoad()
         setUpTableView()
     }
-    
+
     func setUpTableView() {
-        let identifier = String(describing: TaskTableViewCell.self)
-        let nib = UINib(nibName: identifier, bundle: nil)
-        taskListTableView.register(nib, forCellReuseIdentifier: TaskTableViewCell.identifier)
-        
+        taskListTableView.register(TaskTableViewCell.getNib(), forCellReuseIdentifier: TaskTableViewCell.identifier)
+
         taskListTableView.dataSource = self
         taskListTableView.delegate = self
     }

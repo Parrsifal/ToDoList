@@ -21,11 +21,8 @@ final class TaskListServiceImp: TaskListService {
     }
     
     func addTask(title: String, description: String?) {
-        if let description = description {
-            tasks.append(Task(id: id, title: title, description: description))
-        } else {
-            tasks.append(Task(id: id, title: title))
-        }
+        tasks.append(Task(id: id, title: title, description: description))
+        id += 1
     }
 }
 
