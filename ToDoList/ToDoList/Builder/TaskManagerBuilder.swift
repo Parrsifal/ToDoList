@@ -18,7 +18,7 @@ final class TaskManagerBuilder {
     }
     
     func buildTaskList() -> TaskListViewController {
-        let presenter = TaskListPresenterImp(with: service as! TaskListServiceImp)
+        let presenter = TaskListPresenterImp(with: service)
         
         let taskListVc = TaskListViewController(
             coordinator: coordinator,

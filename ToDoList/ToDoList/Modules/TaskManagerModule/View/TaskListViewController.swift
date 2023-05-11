@@ -12,7 +12,7 @@ final class TaskListViewController: UIViewController {
     @IBOutlet weak var taskListTableView: UITableView!
     var coordinator: Coordinator?
     var presenter: TaskListPresenter?
-    var tasksList: [[Task]]{
+    var tasksList: [[Task]] {
         presenter?.getTasks() ?? [[]]
     }
     
@@ -32,7 +32,6 @@ final class TaskListViewController: UIViewController {
     }
     
     func setUpTableView() {
-        
         let identifier = String(describing: TaskTableViewCell.self)
         let nib = UINib(nibName: identifier, bundle: nil)
         taskListTableView.register(nib, forCellReuseIdentifier: TaskTableViewCell.identifier)
@@ -54,7 +53,7 @@ extension TaskListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TaskTableViewCell.identifier) as? TaskTableViewCell else {return UITableViewCell()}
+       guard let cell = tableView.dequeueReusableCell(withIdentifier: TaskTableViewCell.identifier) as? TaskTableViewCell else { return UITableViewCell() }
         
         let task = tasksList[indexPath.section][indexPath.row]
         cell.configure(with: task)
