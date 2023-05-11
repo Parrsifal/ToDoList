@@ -11,7 +11,7 @@ final class TaskListPresenterImp: TaskListPresenter {
     
     let taskListService: TaskListService?
     
-    init(with service: TaskListServiceImp) {
+    init(with service: TaskListService) {
         taskListService = service
     }
     
