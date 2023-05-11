@@ -23,7 +23,7 @@ final class TaskTableViewCell: UITableViewCell {
         taskTitleLabel.text = task.title
         if let description = task.description {
             textDescriptionLabel.text = description
-        }else{
+        } else {
             textDescriptionLabel.isHidden = true
         }
         updateTaskStatus(isCompleted: task.isCompleted)
@@ -44,5 +44,10 @@ final class TaskTableViewCell: UITableViewCell {
     
     func hideSeparator() {
         separatorView.isHidden = true
+    }
+    
+    static func getNib() -> UINib {
+        let identifier = String(describing: TaskTableViewCell.self)
+        return UINib(nibName: identifier, bundle: nil)
     }
 }

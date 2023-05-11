@@ -9,14 +9,14 @@ import Foundation
 
 final class TaskListPresenterImp: TaskListPresenter {
     
-    let taskListService: TaskListService?
+    private let taskListService: TaskListService
     
     init(with service: TaskListService) {
         taskListService = service
     }
     
     func getTasks() -> [[Task]] {
-        let tasks = taskListService?.getTasks() ?? []
+        let tasks = taskListService.getTasks()
         let activeTasks = tasks.filter { !$0.isCompleted }
         let completedTasks = tasks.filter { $0.isCompleted }
         return [activeTasks, completedTasks]
