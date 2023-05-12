@@ -10,10 +10,13 @@ import UIKit
 final class TaskListViewController: UIViewController {
     
     @IBOutlet weak var taskListTableView: UITableView!
-    var coordinator: Coordinator?
-    var presenter: TaskListPresenter?
+    
+    @IBOutlet weak var addTaskButton: UIButton!
+    
+    var coordinator: Coordinator
+    var presenter: TaskListPresenter
     var tasksList: [[Task]] {
-        presenter?.getTasks() ?? [[]]
+        presenter.getTasks()
     }
     
     init(coordinator: Coordinator, presenter: TaskListPresenter) {
@@ -28,14 +31,39 @@ final class TaskListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpTaskListNavBar()
         setUpTableView()
+        setUpBackButton()
+        
     }
-
-    func setUpTableView() {
+    
+    override func viewWillAppear(_ animated: Bool) {
+        taskListTableView.reloadData()
+    }
+    
+    @IBAction func didTouchButton(_ sender: UIButton) {
+        coordinator.addNewTask(from: self)
+    }
+    
+    private func setUpBackButton() {
+        let backButton = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
+        backButton.tintColor = .red
+        navigationItem.backBarButtonItem = backButton
+    }
+    
+    private func setUpTableView() {
         taskListTableView.register(TaskTableViewCell.getNib(), forCellReuseIdentifier: TaskTableViewCell.identifier)
-
+        
         taskListTableView.dataSource = self
         taskListTableView.delegate = self
+    }
+    
+    private func setUpTaskListNavBar() {
+        self.title = "Task Manager"
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        view.layoutSubviews()
     }
 }
 
@@ -51,13 +79,15 @@ extension TaskListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-       guard let cell = tableView.dequeueReusableCell(withIdentifier: TaskTableViewCell.identifier) as? TaskTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TaskTableViewCell.identifier) as? TaskTableViewCell else { return UITableViewCell() }
         
         let task = tasksList[indexPath.section][indexPath.row]
         cell.configure(with: task)
         
         if indexPath.row == tasksList[indexPath.section].count - 1 {
             cell.hideSeparator()
+        } else {
+            cell.showSeparetor()
         }
         return cell
     }

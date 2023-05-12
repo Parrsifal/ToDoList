@@ -9,29 +9,13 @@ import Foundation
 
 final class TaskListServiceImp: TaskListService {
     
-    private var tasks: [Task] = []
-    private var id = 0
+    var storage: StorageRepo
     
-    init() {
-        populateTasks()
+    init(storage: StorageRepo) {
+        self.storage = storage
     }
     
     func getTasks() -> [Task] {
-        return tasks
-    }
-    
-    func addTask(title: String, description: String?) {
-        tasks.append(Task(id: id, title: title, description: description))
-        id += 1
-    }
-}
-
-extension TaskListServiceImp {
-    private func populateTasks() {
-        tasks.append(Task(id: 2, title: "Wake up broo", description: "Dont sleep again!!!"))
-        tasks.append(Task(id: 1, title: "Go eat bro", description: "I think this carrot is dead..."))
-        tasks.append(Task(id: 23, title: "Hello"))
-        tasks.append(Task(id: 1, title: "Go a bro", description: "fsdf"))
-        tasks[0].isCompleted = true
+        return storage.getTasks()
     }
 }

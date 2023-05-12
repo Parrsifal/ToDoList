@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		99AD385E2A0D43BE00DF9FB3 /* AddTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AD385C2A0D43BE00DF9FB3 /* AddTaskViewController.swift */; };
+		99AD385F2A0D43BE00DF9FB3 /* AddTaskViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 99AD385D2A0D43BE00DF9FB3 /* AddTaskViewController.xib */; };
+		99AD38612A0E26B800DF9FB3 /* TaskManagerGeneralBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AD38602A0E26B800DF9FB3 /* TaskManagerGeneralBuilder.swift */; };
+		99AD38632A0E27B800DF9FB3 /* AddEditTaskService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AD38622A0E27B800DF9FB3 /* AddEditTaskService.swift */; };
+		99AD38652A0E27F400DF9FB3 /* AddEditTaskServiceImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AD38642A0E27F400DF9FB3 /* AddEditTaskServiceImp.swift */; };
+		99AD38672A0E283100DF9FB3 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AD38662A0E283100DF9FB3 /* Service.swift */; };
+		99AD38692A0E2AB000DF9FB3 /* ServiceImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AD38682A0E2AB000DF9FB3 /* ServiceImp.swift */; };
+		99AD386B2A0E2F6B00DF9FB3 /* StorageRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AD386A2A0E2F6B00DF9FB3 /* StorageRepo.swift */; };
+		99AD386D2A0E2F8200DF9FB3 /* StorageRepoImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AD386C2A0E2F8200DF9FB3 /* StorageRepoImp.swift */; };
+		99AD38702A0E3AC000DF9FB3 /* AddEditTaskPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AD386F2A0E3AC000DF9FB3 /* AddEditTaskPresenter.swift */; };
+		99AD38722A0E3B4800DF9FB3 /* AddEditTaskPresenterImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AD38712A0E3B4800DF9FB3 /* AddEditTaskPresenterImp.swift */; };
 		99C29D212A0B825100E7DA6B /* TaskManagerBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C29D202A0B825100E7DA6B /* TaskManagerBuilder.swift */; };
 		99F31EE42A014CFD00119D53 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99F31EE32A014CFD00119D53 /* AppDelegate.swift */; };
 		99F31EED2A014D0000119D53 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99F31EEC2A014D0000119D53 /* Assets.xcassets */; };
@@ -25,6 +36,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		99AD385C2A0D43BE00DF9FB3 /* AddTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskViewController.swift; sourceTree = "<group>"; };
+		99AD385D2A0D43BE00DF9FB3 /* AddTaskViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddTaskViewController.xib; sourceTree = "<group>"; };
+		99AD38602A0E26B800DF9FB3 /* TaskManagerGeneralBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManagerGeneralBuilder.swift; sourceTree = "<group>"; };
+		99AD38622A0E27B800DF9FB3 /* AddEditTaskService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditTaskService.swift; sourceTree = "<group>"; };
+		99AD38642A0E27F400DF9FB3 /* AddEditTaskServiceImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditTaskServiceImp.swift; sourceTree = "<group>"; };
+		99AD38662A0E283100DF9FB3 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		99AD38682A0E2AB000DF9FB3 /* ServiceImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceImp.swift; sourceTree = "<group>"; };
+		99AD386A2A0E2F6B00DF9FB3 /* StorageRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageRepo.swift; sourceTree = "<group>"; };
+		99AD386C2A0E2F8200DF9FB3 /* StorageRepoImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageRepoImp.swift; sourceTree = "<group>"; };
+		99AD386F2A0E3AC000DF9FB3 /* AddEditTaskPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditTaskPresenter.swift; sourceTree = "<group>"; };
+		99AD38712A0E3B4800DF9FB3 /* AddEditTaskPresenterImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditTaskPresenterImp.swift; sourceTree = "<group>"; };
 		99C29D202A0B825100E7DA6B /* TaskManagerBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManagerBuilder.swift; sourceTree = "<group>"; };
 		99F31EE02A014CFD00119D53 /* ToDoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		99F31EE32A014CFD00119D53 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -55,10 +77,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		99AD38562A0D196200DF9FB3 /* AddTaskModule */ = {
+			isa = PBXGroup;
+			children = (
+				99AD386E2A0E3AA200DF9FB3 /* Presenter */,
+				99AD38572A0D197300DF9FB3 /* View */,
+			);
+			path = AddTaskModule;
+			sourceTree = "<group>";
+		};
+		99AD38572A0D197300DF9FB3 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				99AD385C2A0D43BE00DF9FB3 /* AddTaskViewController.swift */,
+				99AD385D2A0D43BE00DF9FB3 /* AddTaskViewController.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		99AD386E2A0E3AA200DF9FB3 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				99AD386F2A0E3AC000DF9FB3 /* AddEditTaskPresenter.swift */,
+				99AD38712A0E3B4800DF9FB3 /* AddEditTaskPresenterImp.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
 		99C29D1F2A0B823A00E7DA6B /* Builder */ = {
 			isa = PBXGroup;
 			children = (
 				99C29D202A0B825100E7DA6B /* TaskManagerBuilder.swift */,
+				99AD38602A0E26B800DF9FB3 /* TaskManagerGeneralBuilder.swift */,
 			);
 			path = Builder;
 			sourceTree = "<group>";
@@ -127,6 +177,12 @@
 			children = (
 				99F31F1C2A04E09D00119D53 /* TaskListServiceImp.swift */,
 				99F31F272A053A5B00119D53 /* TaskListService.swift */,
+				99AD38622A0E27B800DF9FB3 /* AddEditTaskService.swift */,
+				99AD38642A0E27F400DF9FB3 /* AddEditTaskServiceImp.swift */,
+				99AD38662A0E283100DF9FB3 /* Service.swift */,
+				99AD38682A0E2AB000DF9FB3 /* ServiceImp.swift */,
+				99AD386A2A0E2F6B00DF9FB3 /* StorageRepo.swift */,
+				99AD386C2A0E2F8200DF9FB3 /* StorageRepoImp.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -151,6 +207,7 @@
 		99F31F232A05389900119D53 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				99AD38562A0D196200DF9FB3 /* AddTaskModule */,
 				99F31F242A0538AB00119D53 /* TaskManagerModule */,
 			);
 			path = Modules;
@@ -225,6 +282,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				99F31F112A028FFA00119D53 /* TaskTableViewCell.xib in Resources */,
+				99AD385F2A0D43BE00DF9FB3 /* AddTaskViewController.xib in Resources */,
 				99F31EFA2A014DAB00119D53 /* TaskListViewController.xib in Resources */,
 				99F31EED2A014D0000119D53 /* Assets.xcassets in Resources */,
 			);
@@ -242,13 +300,23 @@
 				99F31EF92A014DAB00119D53 /* TaskListViewController.swift in Sources */,
 				99F31F202A0536D600119D53 /* Constans.swift in Sources */,
 				99F31F1B2A03F0CE00119D53 /* MainCoordinator.swift in Sources */,
+				99AD386B2A0E2F6B00DF9FB3 /* StorageRepo.swift in Sources */,
 				99F31F192A03F01700119D53 /* Coordinator.swift in Sources */,
 				99C29D212A0B825100E7DA6B /* TaskManagerBuilder.swift in Sources */,
 				99F31F282A053A5B00119D53 /* TaskListService.swift in Sources */,
+				99AD38692A0E2AB000DF9FB3 /* ServiceImp.swift in Sources */,
+				99AD38722A0E3B4800DF9FB3 /* AddEditTaskPresenterImp.swift in Sources */,
 				99F31F0A2A02760200119D53 /* TaskListPresenterImp.swift in Sources */,
 				99F31F102A028FFA00119D53 /* TaskTableViewCell.swift in Sources */,
 				99F31F072A0250B100119D53 /* Task.swift in Sources */,
+				99AD38672A0E283100DF9FB3 /* Service.swift in Sources */,
+				99AD38632A0E27B800DF9FB3 /* AddEditTaskService.swift in Sources */,
 				99F31EE42A014CFD00119D53 /* AppDelegate.swift in Sources */,
+				99AD385E2A0D43BE00DF9FB3 /* AddTaskViewController.swift in Sources */,
+				99AD38612A0E26B800DF9FB3 /* TaskManagerGeneralBuilder.swift in Sources */,
+				99AD386D2A0E2F8200DF9FB3 /* StorageRepoImp.swift in Sources */,
+				99AD38652A0E27F400DF9FB3 /* AddEditTaskServiceImp.swift in Sources */,
+				99AD38702A0E3AC000DF9FB3 /* AddEditTaskPresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -20,5 +20,5 @@ final class TaskListPresenterImp: TaskListPresenter {
         let activeTasks = tasks.filter { !$0.isCompleted }
         let completedTasks = tasks.filter { $0.isCompleted }
         return [activeTasks, completedTasks]
-    }    
+    }
 }

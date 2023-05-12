@@ -10,4 +10,5 @@ import UIKit
 
 protocol Coordinator {
     func rootVC() -> TaskListViewController
+    func addNewTask(from: UIViewController)
 }
