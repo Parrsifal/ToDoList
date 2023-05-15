@@ -20,7 +20,7 @@ final class AddTaskViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpAddTaskNavBar()
+        setUpNavBar()
         registerKeyboardNotifcations()
         createTaskButton.alpha = 0
     }
@@ -28,18 +28,11 @@ final class AddTaskViewController: UIViewController {
     init(presenter: AddEditTaskPresenter, coordinator: Coordinator) {
         self.coordinator = coordinator
         self.presenter = presenter
-        super.init(nibName: "AddTaskViewController", bundle: nil)
+        super.init(nibName: String(describing: AddTaskViewController.self), bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func setUpAddTaskNavBar() {
-        self.title = "Add Task"
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     @IBAction func titleFieldChanged(_ sender: UITextField) {
@@ -55,12 +48,10 @@ final class AddTaskViewController: UIViewController {
             }
         }
     }
-
+    
     private func isValidTaskTitle(_ title: String?) -> Bool {
         if let title = title {
-            if title.count > 4 && title.count < 15 {
-                return true
-            }
+            return title.count > 4 && title.count < 15
         }
         return false
     }
@@ -83,10 +74,10 @@ final class AddTaskViewController: UIViewController {
         
         self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(hideKeyboard)))
         
-        NotificationCenter.default.addObserver(self, selector: #selector(kbWillShow(notification: )),
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification: )),
                                                name: UIResponder.keyboardWillShowNotification,
                                                object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(kbWillHide),
+        NotificationCenter.default.addObserver(self, selector: #selector(keyaboardWillHide),
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
     }
@@ -95,7 +86,7 @@ final class AddTaskViewController: UIViewController {
         self.view.endEditing(true)
     }
     
-    @objc private func kbWillShow(notification: NSNotification) {
+    @objc private func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardHeight = keyboardSize.height
             print(keyboardHeight)
@@ -104,7 +95,16 @@ final class AddTaskViewController: UIViewController {
         }
     }
     
-    @objc private func kbWillHide() {
+    @objc private func keyaboardWillHide() {
         bottomSpace.constant = 34
+    }
+}
+
+extension AddTaskViewController: NavigationBarSetup {
+    func setUpNavBar() {
+        self.title = "Add Task"
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.prefersLargeTitles = true
     }
 }

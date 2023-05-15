@@ -31,7 +31,7 @@ final class TaskListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpTaskListNavBar()
+        setUpNavBar()
         setUpTableView()
         setUpBackButton()
         
@@ -57,14 +57,6 @@ final class TaskListViewController: UIViewController {
         taskListTableView.dataSource = self
         taskListTableView.delegate = self
     }
-    
-    private func setUpTaskListNavBar() {
-        self.title = "Task Manager"
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        view.layoutSubviews()
-    }
 }
 
 extension TaskListViewController: UITableViewDataSource {
@@ -84,11 +76,10 @@ extension TaskListViewController: UITableViewDataSource {
         let task = tasksList[indexPath.section][indexPath.row]
         cell.configure(with: task)
         
-        if indexPath.row == tasksList[indexPath.section].count - 1 {
-            cell.hideSeparator()
-        } else {
-            cell.showSeparetor()
-        }
+        indexPath.row == tasksList[indexPath.section].count - 1
+        ? cell.hideSeparator()
+        : cell.showSeparetor()
+        
         return cell
     }
 }
@@ -102,5 +93,15 @@ extension TaskListViewController: UITableViewDelegate {
         headerLabel.textColor = .black
         headerView.addSubview(headerLabel)
         return headerView
+    }
+}
+
+extension TaskListViewController: NavigationBarSetup {
+    func setUpNavBar() {
+        self.title = "Task Manager"
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        view.layoutSubviews()
     }
 }
