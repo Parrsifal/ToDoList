@@ -27,8 +27,12 @@ final class MainCoordinator: Coordinator {
         builder.buildTaskList()
     }
     
-    func addNewTask(from: UIViewController) {
+    func navigateToaAddNewTaskVC(from: UIViewController) {
         let nextVc = builder.buildAddNewTask()
         from.navigationController?.pushViewController(nextVc, animated: true)
+    }
+    
+    func goToRootVC(from: UIViewController) {
+        from.navigationController?.popToRootViewController(animated: true)
     }
 }

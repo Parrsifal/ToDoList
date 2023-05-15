@@ -42,7 +42,7 @@ final class TaskListViewController: UIViewController {
     }
     
     @IBAction func didTouchButton(_ sender: UIButton) {
-        coordinator.addNewTask(from: self)
+        coordinator.navigateToAddNewTaskVC(from: self)
     }
     
     private func setUpBackButton() {

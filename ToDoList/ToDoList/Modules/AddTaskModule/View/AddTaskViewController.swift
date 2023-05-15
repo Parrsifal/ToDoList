@@ -43,31 +43,32 @@ final class AddTaskViewController: UIViewController {
     }
     
     @IBAction func titleFieldChanged(_ sender: UITextField) {
-        if let titleFieldText = titleTextField.text {
-            if let errorMessage = invalidTitleText(title: titleFieldText) {
-                titleErrorMessageLabel.text = errorMessage
-                titleErrorMessageLabel.isHidden = false
-                createTaskButton.isHidden = true
-            } else {
-                createTaskButton.isHidden = false
-                titleErrorMessageLabel.isHidden = true
-                UIView.animate(withDuration: 0.5) {
-                    self.createTaskButton.alpha = 1.0
-                }
+        if !isValidTaskTitle(titleTextField.text) {
+            titleErrorMessageLabel.text = Constants.errorTitleMessage
+            titleErrorMessageLabel.isHidden = false
+            createTaskButton.isHidden = true
+        } else {
+            createTaskButton.isHidden = false
+            titleErrorMessageLabel.isHidden = true
+            UIView.animate(withDuration: 0.5) {
+                self.createTaskButton.alpha = 1.0
             }
         }
     }
-    
-    private func invalidTitleText(title: String) -> String? {
-        if title.count <= 5 || title.count >= 15 {
-            return "Must be more then 5 chars or less then 15 chars"
+
+    private func isValidTaskTitle(_ title: String?) -> Bool {
+        if let title = title {
+            if title.count > 4 && title.count < 15 {
+                return true
+            }
         }
-        return nil
+        return false
     }
     
     @IBAction func createTask(_ sender: UIButton) {
-        let newTask = Task(title: titleTextField.text!, description: descriptionTextField.text!)
+        let newTask = Task(title: titleTextField.text ?? "", description: descriptionTextField.text)
         presenter.addTask(task: newTask)
+        coordinator.navigateToRootVC(from: self)
         reloadStatus()
     }
     

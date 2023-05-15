@@ -51,7 +51,6 @@ final class TaskTableViewCell: UITableViewCell {
         separatorView.isHidden = false
     }
     
-    
     static func getNib() -> UINib {
         let identifier = String(describing: TaskTableViewCell.self)
         return UINib(nibName: identifier, bundle: nil)
