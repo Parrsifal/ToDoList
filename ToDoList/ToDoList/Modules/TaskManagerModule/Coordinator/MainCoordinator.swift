@@ -32,7 +32,7 @@ final class MainCoordinator: Coordinator {
         from.navigationController?.pushViewController(nextVc, animated: true)
     }
     
-    func goToRootVC(from: UIViewController) {
+    func navigateToRootVC(from: UIViewController) {
         from.navigationController?.popToRootViewController(animated: true)
     }
 }
