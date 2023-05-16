@@ -18,4 +18,8 @@ final class AddEditTaskServiceImp: AddEditTaskService {
     func addTask(task: Task) {
         storage.addTask(task: task)
     }
+    
+    func editTask(id: Int, title: String, descirption: String?) {
+        storage.editTask(id: id, title: title, descirption: descirption)
+    }
 }

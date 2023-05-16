@@ -42,7 +42,7 @@ final class TaskListViewController: UIViewController {
     }
     
     @IBAction func didTouchButton(_ sender: UIButton) {
-        coordinator.navigateToAddNewTaskVC(from: self)
+        coordinator.navigateToAddNewTaskVC(from: self, task: nil)
     }
     
     private func setUpBackButton() {
@@ -56,6 +56,18 @@ final class TaskListViewController: UIViewController {
         
         taskListTableView.dataSource = self
         taskListTableView.delegate = self
+    }
+    
+    private func handleDeleteSwipe(_ task: Task) {
+        presenter.deleteTask(id: task.id)
+    }
+    
+    private func handleEditAction(_ task: Task) {
+        coordinator.navigateToAddNewTaskVC(from: self, task: task)
+    }
+    
+    private func handleCompleteAction(_ task: Task){
+        presenter.deleteTask(id: task.id)
     }
 }
 
@@ -82,6 +94,60 @@ extension TaskListViewController: UITableViewDataSource {
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let task = tasksList[indexPath.section][indexPath.row]
+        
+        let completeAction = UIContextualAction(style: .destructive,
+                                                title: nil) { [weak self]
+            (action, view, completionHandler) in
+            self?.handleCompleteAction(task)
+            tableView.reloadData()
+            completionHandler(true)
+        }
+        
+        
+        completeAction.image = UIImage(systemName: "checkmark")
+        completeAction.backgroundColor = .systemGreen
+        
+        let config = UISwipeActionsConfiguration(actions: [completeAction])
+        
+        return config
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let task = tasksList[indexPath.section][indexPath.row]
+        
+        let deleteAction  = UIContextualAction(
+            style: .destructive,
+            title: nil) { [weak self]
+                (action, view, completionHandler) in
+                self?.handleDeleteSwipe(task)
+                tableView.reloadData()
+                completionHandler(true)
+            }
+        
+        deleteAction.image = UIImage(systemName: "basket.fill")
+        deleteAction.backgroundColor = .systemRed
+        
+        let editAction = UIContextualAction(style: .destructive,
+                                            title: nil) { [weak self]
+            (action, view, completionHandler) in
+            self?.handleEditAction(task)
+            tableView.reloadData()
+            completionHandler(true)
+        }
+        
+        
+        editAction.image = UIImage(systemName: "pencil")
+        editAction.backgroundColor = .systemYellow
+        
+        let config = UISwipeActionsConfiguration(actions: [deleteAction, editAction])
+        return config
+    }
+    
 }
 
 extension TaskListViewController: UITableViewDelegate {
@@ -93,6 +159,11 @@ extension TaskListViewController: UITableViewDelegate {
         headerLabel.textColor = .black
         headerView.addSubview(headerLabel)
         return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let task = tasksList[indexPath.section][indexPath.row]
+        coordinator.navigateToAddNewTaskVC(from: self, task: task)
     }
 }
 

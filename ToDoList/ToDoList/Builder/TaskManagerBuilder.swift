@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 
 final class TaskManagerBuilder {
     
@@ -28,12 +27,13 @@ final class TaskManagerBuilder {
         return taskListVc
     }
     
-    func buildAddNewTask() -> AddTaskViewController {
+    func buildAddNewTask(task: Task?) -> AddTaskViewController {
         let presenter = AddEditTaskPresenterImp(with: service.addEditTaskService)
         
         let addTaskVC = AddTaskViewController(
             presenter: presenter,
-            coordinator: coordinator
+            coordinator: coordinator,
+            task: task
         )
         return addTaskVC
     }

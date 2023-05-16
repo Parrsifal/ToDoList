@@ -23,6 +23,23 @@ final class StorageRepoImp: StorageRepo {
     func getTasks() -> [Task] {
         return tasks
     }
+    
+    func editTask(id: Int, title: String, descirption: String?) {
+        if let taskIndex = tasks.firstIndex(where: { $0.id == id } ) {
+            tasks[taskIndex].title = title
+            tasks[taskIndex].description = descirption
+        }
+    }
+    
+    func deleteTask(id: Int) {
+        tasks.removeAll(where: { $0.id == id })
+    }
+    
+    func completeTask(id: Int) {
+        if let taskIndex = tasks.firstIndex(where: { $0.id == id }){
+            tasks[taskIndex].isCompleted = true
+        }
+    }
 }
 
 extension StorageRepoImp {

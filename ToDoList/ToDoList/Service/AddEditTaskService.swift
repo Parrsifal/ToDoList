@@ -10,4 +10,5 @@ import Foundation
 protocol AddEditTaskService {
     var storage: StorageRepo { get set }
     func addTask(task: Task)
+    func editTask(id: Int, title: String, descirption: String?)
 }

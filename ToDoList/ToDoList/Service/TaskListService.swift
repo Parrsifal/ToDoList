@@ -8,6 +8,8 @@
 import Foundation
 
 protocol TaskListService: AnyObject {
-    func getTasks() -> [Task]
     var storage: StorageRepo { get set }
+    func getTasks() -> [Task]
+    func deleteTask(id: Int)
+    func completeTask(id: Int)
 }

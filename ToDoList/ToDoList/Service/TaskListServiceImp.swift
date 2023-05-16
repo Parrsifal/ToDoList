@@ -18,4 +18,12 @@ final class TaskListServiceImp: TaskListService {
     func getTasks() -> [Task] {
         return storage.getTasks()
     }
+    
+    func deleteTask(id: Int) {
+        storage.deleteTask(id: id)
+    }
+    
+    func completeTask(id: Int) {
+        storage.completeTask(id: id)
+    }
 }

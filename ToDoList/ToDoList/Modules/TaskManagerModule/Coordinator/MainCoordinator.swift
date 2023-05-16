@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 final class MainCoordinator: Coordinator {
-    
+ 
     let service: Service
     
     lazy var builder: TaskManagerBuilder = {
@@ -27,8 +27,8 @@ final class MainCoordinator: Coordinator {
         builder.buildTaskList()
     }
     
-    func navigateToAddNewTaskVC(from controller: UIViewController) {
-        let nextVc = builder.buildAddNewTask()
+    func navigateToAddNewTaskVC(from controller: UIViewController, task: Task?) {
+        let nextVc = builder.buildAddNewTask(task: task)
         controller.navigationController?.pushViewController(nextVc, animated: true)
     }
     
