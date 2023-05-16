@@ -17,6 +17,7 @@ final class TaskTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.reloadInputViews()
     }
     
     func configure(with task: Task) {
@@ -44,6 +45,10 @@ final class TaskTableViewCell: UITableViewCell {
     
     func hideSeparator() {
         separatorView.isHidden = true
+    }
+    
+    func showSeparetor() {
+        separatorView.isHidden = false
     }
     
     static func getNib() -> UINib {

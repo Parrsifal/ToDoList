@@ -10,4 +10,6 @@ import UIKit
 
 protocol Coordinator {
     func rootVC() -> TaskListViewController
+    func navigateToAddNewTaskVC(from: UIViewController)
+    func navigateToRootVC(from: UIViewController)
 }

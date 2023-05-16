@@ -16,11 +16,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         
-        let service = TaskListServiceImp()
+        let service = ServiceImp()
         let coordinator = MainCoordinator(service: service)
+        let taskManagerNavController = UINavigationController(rootViewController: coordinator.rootVC())
         
-        window?.rootViewController = coordinator.rootVC()
+        window?.rootViewController = taskManagerNavController
         window?.makeKeyAndVisible()
+
         return true
     }
 }

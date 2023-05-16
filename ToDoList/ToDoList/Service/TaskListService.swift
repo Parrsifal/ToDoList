@@ -9,5 +9,5 @@ import Foundation
 
 protocol TaskListService: AnyObject {
     func getTasks() -> [Task]
-    func addTask(title: String, description: String?)
+    var storage: StorageRepo { get set }
 }

@@ -10,7 +10,7 @@ import UIKit
 
 final class MainCoordinator: Coordinator {
     
-    let service: TaskListService
+    let service: Service
     
     lazy var builder: TaskManagerBuilder = {
         return TaskManagerBuilder(
@@ -19,11 +19,20 @@ final class MainCoordinator: Coordinator {
         )
     }()
     
-    init(service: TaskListService) {
+    init(service: Service) {
         self.service = service
     }
     
     func rootVC() -> TaskListViewController {
         builder.buildTaskList()
+    }
+    
+    func navigateToAddNewTaskVC(from controller: UIViewController) {
+        let nextVc = builder.buildAddNewTask()
+        controller.navigationController?.pushViewController(nextVc, animated: true)
+    }
+    
+    func navigateToRootVC(from controller: UIViewController) {
+        controller.navigationController?.popToRootViewController(animated: true)
     }
 }
