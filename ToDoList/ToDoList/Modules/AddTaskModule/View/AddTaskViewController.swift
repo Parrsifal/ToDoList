@@ -7,27 +7,38 @@
 
 import UIKit
 
+enum TaskDetailsScreenMode {
+    case addTask
+    case editTask
+}
+
 final class AddTaskViewController: UIViewController {
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var descriptionTextField: UITextField!
     @IBOutlet weak var createTaskButton: UIButton!
     @IBOutlet weak var titleErrorMessageLabel: UILabel!
-    @IBOutlet var bottomSpace: NSLayoutConstraint!
+    @IBOutlet weak var bottomSpace: NSLayoutConstraint!
     
     var coordinator: Coordinator
     var presenter: AddEditTaskPresenter
     
+    var screenMode: TaskDetailsScreenMode = .addTask
+    var task: Task?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpNavBar()
+        screenMode = task != nil ? .editTask : .addTask
+        setUpAddTaskNavBar(screenMode)
         registerKeyboardNotifcations()
         createTaskButton.alpha = 0
+        
     }
     
-    init(presenter: AddEditTaskPresenter, coordinator: Coordinator) {
+    init(presenter: AddEditTaskPresenter, coordinator: Coordinator, task: Task? = nil) {
         self.coordinator = coordinator
         self.presenter = presenter
+        self.task = task
         super.init(nibName: String(describing: AddTaskViewController.self), bundle: nil)
     }
     
@@ -35,29 +46,49 @@ final class AddTaskViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @IBAction func titleFieldChanged(_ sender: UITextField) {
-        if !isValidTaskTitle(titleTextField.text) {
-            titleErrorMessageLabel.text = Constants.errorTitleMessage
-            titleErrorMessageLabel.isHidden = false
-            createTaskButton.isHidden = true
-        } else {
+    private func setUpAddTaskNavBar(_ screenMode: TaskDetailsScreenMode) {
+        let title = screenMode == .addTask ? "Add Task" : "Edit Task"
+        
+        self.title = title
+        let buttonTitle = screenMode == .addTask ? "Create Task" : "Save Task"
+        self.createTaskButton.setTitle(buttonTitle, for: .normal)
+        self.titleTextField.text = task?.title
+        self.titleTextField.layer.cornerRadius = 15
+        self.descriptionTextField.text = task?.description
+    }
+    
+    private func setUpEditScreen() {
+        self.title = "Edit task"
+        titleTextField.text = task?.title
+        descriptionTextField.text = task?.description
+    }
+    
+    @IBAction func InputFieldsChanged(_ sender: UITextField) {
+        if isValidTaskInput(titleTextField.text) && isValidTaskInput(descriptionTextField.text) {
+            
             createTaskButton.isHidden = false
             titleErrorMessageLabel.isHidden = true
             UIView.animate(withDuration: 0.5) {
                 self.createTaskButton.alpha = 1.0
             }
+        } else {
+            titleErrorMessageLabel.text = Constants.errorTitleMessage
+            titleErrorMessageLabel.isHidden = false
+            createTaskButton.isHidden = true
+            
         }
     }
     
-    private func isValidTaskTitle(_ title: String?) -> Bool {
-        if let title = title {
-            return title.count > 4 && title.count < 15
+    private func isValidTaskInput(_ inputText: String?) -> Bool {
+        if let inputText {
+            return (inputText.count > 4 && inputText.count < 15)
         }
         return false
     }
     
     @IBAction func createTask(_ sender: UIButton) {
-        let newTask = Task(title: titleTextField.text ?? "", description: descriptionTextField.text)
+        let newTask = Task(title: titleTextField.text! , description: descriptionTextField.text)
+      //  screenMode == .addTask ? presenter.addTask(task: newTask) : presenter.
         presenter.addTask(task: newTask)
         coordinator.navigateToRootVC(from: self)
         reloadStatus()
