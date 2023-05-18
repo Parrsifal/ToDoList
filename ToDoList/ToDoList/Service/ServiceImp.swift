@@ -9,6 +9,5 @@ import Foundation
 
 final class ServiceImp: Service {
     lazy var storage = StorageRepoImp()
-    lazy var taskListService: TaskListService = TaskListServiceImp(storage: storage)
-    lazy var addEditTaskService: AddEditTaskService = AddEditTaskServiceImp(storage: storage)
+    lazy var taskManagerService: TaskManagerService = TaskManagerServiceImp(storage: storage)
 }

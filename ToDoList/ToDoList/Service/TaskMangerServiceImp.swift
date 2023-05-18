@@ -1,14 +1,13 @@
 //
-//  TaskListServiceImp.swift
+//  TaskMangerServiceImp.swift
 //  ToDoList
 //
-//  Created by Dmitrii Sorochin on 05.05.2023.
+//  Created by Dmitrii Sorochin on 17.05.2023.
 //
 
 import Foundation
 
-final class TaskListServiceImp: TaskListService {
-    
+final class TaskManagerServiceImp: TaskManagerService {
     var storage: StorageRepo
     
     init(storage: StorageRepo) {
@@ -19,6 +18,10 @@ final class TaskListServiceImp: TaskListService {
         return storage.getTasks()
     }
     
+    func addTask(task: Task) {
+        storage.addTask(task: task)
+    }
+    
     func deleteTask(id: Int) {
         storage.deleteTask(id: id)
     }
@@ -26,4 +29,9 @@ final class TaskListServiceImp: TaskListService {
     func completeTask(id: Int) {
         storage.completeTask(id: id)
     }
+    
+    func editTask(id: Int, title: String, description: String?) {
+        storage.editTask(id: id, title: title, description: description)
+    }
+    
 }

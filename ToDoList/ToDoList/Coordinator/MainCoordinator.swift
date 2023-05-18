@@ -12,10 +12,16 @@ final class MainCoordinator: Coordinator {
  
     let service: Service
     
-    lazy var builder: TaskManagerBuilder = {
+    lazy var taskManagerBuilder: TaskManagerBuilder = {
         return TaskManagerBuilder(
             service: service,
             coordinator: self
+        )
+    }()
+    
+    lazy var addTaskBuilder: AddTaskBuilder = {
+        return AddTaskBuilder(service: service,
+                              coordinator: self
         )
     }()
     
@@ -24,11 +30,11 @@ final class MainCoordinator: Coordinator {
     }
     
     func rootVC() -> TaskListViewController {
-        builder.buildTaskList()
+        taskManagerBuilder.buildTaskList()
     }
     
     func navigateToAddNewTaskVC(from controller: UIViewController, task: Task?) {
-        let nextVc = builder.buildAddNewTask(task: task)
+        let nextVc = addTaskBuilder.buildAddNewTask(task: task)
         controller.navigationController?.pushViewController(nextVc, animated: true)
     }
     

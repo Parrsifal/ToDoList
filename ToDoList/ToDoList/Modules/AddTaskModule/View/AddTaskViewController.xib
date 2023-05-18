@@ -20,11 +20,11 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="539"/>
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter you title..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fgw-5i-TKY">
-                    <rect key="frame" x="24" y="101" width="300" height="48"/>
+                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter you title..." minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fgw-5i-TKY">
+                    <rect key="frame" x="24" y="101" width="314.33333333333331" height="48"/>
                     <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="48" id="yUQ-sk-sCr"/>
@@ -32,11 +32,11 @@
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <textInputTraits key="textInputTraits"/>
                     <connections>
-                        <action selector="InputFieldsChanged:" destination="-1" eventType="editingChanged" id="Z3O-FF-X5c"/>
+                        <action selector="inputFieldsChanged:" destination="-1" eventType="editingChanged" id="Z3O-FF-X5c"/>
                     </connections>
                 </textField>
-                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter an optionl description..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VXx-j9-oK3">
-                    <rect key="frame" x="24" y="181" width="300" height="48"/>
+                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter an optionl description..." minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VXx-j9-oK3">
+                    <rect key="frame" x="24" y="181" width="314.33333333333331" height="48"/>
                     <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="48" id="miq-Hq-QWl"/>
@@ -44,11 +44,11 @@
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <textInputTraits key="textInputTraits"/>
                     <connections>
-                        <action selector="InputFieldsChanged:" destination="-1" eventType="editingChanged" id="3Ui-Rr-YLB"/>
+                        <action selector="inputFieldsChanged:" destination="-1" eventType="editingChanged" id="gTd-28-Lwc"/>
                     </connections>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="McL-4O-OCx">
-                    <rect key="frame" x="37.666666666666657" y="441" width="300" height="64"/>
+                    <rect key="frame" x="39.333333333333343" y="754" width="314.33333333333326" height="64"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="64" id="BNR-EV-nQd"/>
                     </constraints>
@@ -58,7 +58,7 @@
                         <color key="baseBackgroundColor" red="0.83137254900000002" green="0.30980392159999998" blue="0.30980392159999998" alpha="1" colorSpace="calibratedRGB"/>
                     </buttonConfiguration>
                     <connections>
-                        <action selector="createTask:" destination="-1" eventType="touchUpInside" id="WG1-XN-rcw"/>
+                        <action selector="buttonDidTouch:" destination="-1" eventType="touchUpInside" id="WG1-XN-rcw"/>
                     </connections>
                 </button>
                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bud-K4-jdb" userLabel="titleErrorMessage">

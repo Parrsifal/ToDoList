@@ -7,21 +7,20 @@
 
 import UIKit
 
-final class TaskListViewController: UIViewController {
+final class TaskListViewController: UIViewController, TaskListView {
     
     @IBOutlet weak var taskListTableView: UITableView!
-    
+    @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var addTaskButton: UIButton!
     
-    var coordinator: Coordinator
-    var presenter: TaskListPresenter
-    var tasksList: [[Task]] {
+    private var coordinator: Coordinator
+    public var presenter: TaskListPresenter!
+    private var tasksList: [[Task]] {
         presenter.getTasks()
     }
     
-    init(coordinator: Coordinator, presenter: TaskListPresenter) {
+    init(coordinator: Coordinator) {
         self.coordinator = coordinator
-        self.presenter = presenter
         super.init(nibName: "TaskListViewController", bundle: nil)
     }
     
@@ -31,6 +30,8 @@ final class TaskListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        backgroundImageView.image = UIImage(named: "cat")
+        backgroundImageView.isHidden = true
         setUpNavBar()
         setUpTableView()
         setUpBackButton()
@@ -41,7 +42,7 @@ final class TaskListViewController: UIViewController {
         taskListTableView.reloadData()
     }
     
-    @IBAction func didTouchButton(_ sender: UIButton) {
+    @IBAction private func didTouchButton(_ sender: UIButton) {
         coordinator.navigateToAddNewTaskVC(from: self, task: nil)
     }
     
@@ -66,8 +67,12 @@ final class TaskListViewController: UIViewController {
         coordinator.navigateToAddNewTaskVC(from: self, task: task)
     }
     
-    private func handleCompleteAction(_ task: Task){
-        presenter.deleteTask(id: task.id)
+    private func handleCompleteAction(_ task: Task) {
+        presenter.completeTask(id: task.id)
+    }
+    
+    func reloadView() {
+        taskListTableView.reloadData()
     }
 }
 
@@ -103,10 +108,8 @@ extension TaskListViewController: UITableViewDataSource {
                                                 title: nil) { [weak self]
             (action, view, completionHandler) in
             self?.handleCompleteAction(task)
-            tableView.reloadData()
             completionHandler(true)
         }
-        
         
         completeAction.image = UIImage(systemName: "checkmark")
         completeAction.backgroundColor = .systemGreen
@@ -124,9 +127,25 @@ extension TaskListViewController: UITableViewDataSource {
             style: .destructive,
             title: nil) { [weak self]
                 (action, view, completionHandler) in
-                self?.handleDeleteSwipe(task)
-                tableView.reloadData()
-                completionHandler(true)
+                
+                let alert = UIAlertController(title: "Delete confirmation",
+                                              message: "Delete the task?",
+                                              preferredStyle: .alert)
+                
+                alert.addAction(UIAlertAction(title: "Yes",
+                                              style: .default,
+                                              handler: { _ in
+                    self?.handleDeleteSwipe(task)
+                    completionHandler(true)
+                }))
+                
+                alert.addAction(UIAlertAction(title: "No",
+                                              style: .cancel,
+                                              handler: { _ in
+                    completionHandler(false)
+                }))
+                
+                self?.present(alert, animated: true, completion: nil)
             }
         
         deleteAction.image = UIImage(systemName: "basket.fill")
@@ -136,10 +155,8 @@ extension TaskListViewController: UITableViewDataSource {
                                             title: nil) { [weak self]
             (action, view, completionHandler) in
             self?.handleEditAction(task)
-            tableView.reloadData()
             completionHandler(true)
         }
-        
         
         editAction.image = UIImage(systemName: "pencil")
         editAction.backgroundColor = .systemYellow

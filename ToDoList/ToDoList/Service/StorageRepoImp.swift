@@ -24,10 +24,10 @@ final class StorageRepoImp: StorageRepo {
         return tasks
     }
     
-    func editTask(id: Int, title: String, descirption: String?) {
+    func editTask(id: Int, title: String, description: String?) {
         if let taskIndex = tasks.firstIndex(where: { $0.id == id } ) {
             tasks[taskIndex].title = title
-            tasks[taskIndex].description = descirption
+            tasks[taskIndex].description = description
         }
     }
     
