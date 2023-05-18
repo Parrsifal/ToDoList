@@ -26,12 +26,11 @@ final class TaskManagerServiceImp: TaskManagerService {
         storage.deleteTask(id: id)
     }
     
-    func completeTask(id: Int) {
-        storage.completeTask(id: id)
+    func updateTaskStatus(id: Int) {
+        storage.updateTaskStatus(id: id)
     }
     
     func editTask(id: Int, title: String, description: String?) {
         storage.editTask(id: id, title: title, description: description)
     }
-    
 }

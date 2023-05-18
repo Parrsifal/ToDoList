@@ -14,7 +14,7 @@ final class TaskListViewController: UIViewController, TaskListView {
     @IBOutlet weak var addTaskButton: UIButton!
     
     private var coordinator: Coordinator
-    public var presenter: TaskListPresenter!
+    var presenter: TaskListPresenter!
     private var tasksList: [[Task]] {
         presenter.getTasks()
     }
@@ -32,6 +32,7 @@ final class TaskListViewController: UIViewController, TaskListView {
         super.viewDidLoad()
         backgroundImageView.image = UIImage(named: "cat")
         backgroundImageView.isHidden = true
+        
         setUpNavBar()
         setUpTableView()
         setUpBackButton()
@@ -68,11 +69,42 @@ final class TaskListViewController: UIViewController, TaskListView {
     }
     
     private func handleCompleteAction(_ task: Task) {
-        presenter.completeTask(id: task.id)
+        presenter.updateTaskStatus(id: task.id)
     }
     
     func reloadView() {
         taskListTableView.reloadData()
+    }
+    
+    func createDeleteAction(task: Task) -> UIContextualAction  {
+        let deleteAction =  UIContextualAction(
+            style: .destructive,
+            title: nil) { [weak self]
+                (action, view, completionHandler) in
+                
+                let alert = UIAlertController(title: "Delete confirmation",
+                                              message: "Delete the task?",
+                                              preferredStyle: .alert)
+                
+                alert.addAction(UIAlertAction(title: "Yes",
+                                              style: .default,
+                                              handler: { _ in
+                    self?.handleDeleteSwipe(task)
+                    completionHandler(true)
+                }))
+                
+                alert.addAction(UIAlertAction(title: "No",
+                                              style: .cancel,
+                                              handler: { _ in
+                    completionHandler(false)
+                }))
+                
+                self?.present(alert, animated: true, completion: nil)
+            }
+        deleteAction.image = UIImage(systemName: "basket.fill")
+        deleteAction.backgroundColor = .systemRed
+        
+        return deleteAction
     }
 }
 
@@ -86,6 +118,18 @@ extension TaskListViewController: UITableViewDataSource {
         tasksList[section].count
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        true
+    }
+    
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        true
+    }
+    //not yet worked
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TaskTableViewCell.identifier) as? TaskTableViewCell else { return UITableViewCell() }
@@ -96,6 +140,7 @@ extension TaskListViewController: UITableViewDataSource {
         indexPath.row == tasksList[indexPath.section].count - 1
         ? cell.hideSeparator()
         : cell.showSeparetor()
+        cell.delegate = self
         
         return cell
     }
@@ -123,33 +168,7 @@ extension TaskListViewController: UITableViewDataSource {
         
         let task = tasksList[indexPath.section][indexPath.row]
         
-        let deleteAction  = UIContextualAction(
-            style: .destructive,
-            title: nil) { [weak self]
-                (action, view, completionHandler) in
-                
-                let alert = UIAlertController(title: "Delete confirmation",
-                                              message: "Delete the task?",
-                                              preferredStyle: .alert)
-                
-                alert.addAction(UIAlertAction(title: "Yes",
-                                              style: .default,
-                                              handler: { _ in
-                    self?.handleDeleteSwipe(task)
-                    completionHandler(true)
-                }))
-                
-                alert.addAction(UIAlertAction(title: "No",
-                                              style: .cancel,
-                                              handler: { _ in
-                    completionHandler(false)
-                }))
-                
-                self?.present(alert, animated: true, completion: nil)
-            }
-        
-        deleteAction.image = UIImage(systemName: "basket.fill")
-        deleteAction.backgroundColor = .systemRed
+        let deleteAction  = createDeleteAction(task: task)
         
         let editAction = UIContextualAction(style: .destructive,
                                             title: nil) { [weak self]
@@ -164,7 +183,6 @@ extension TaskListViewController: UITableViewDataSource {
         let config = UISwipeActionsConfiguration(actions: [deleteAction, editAction])
         return config
     }
-    
 }
 
 extension TaskListViewController: UITableViewDelegate {
@@ -191,5 +209,16 @@ extension TaskListViewController: NavigationBarSetup {
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.prefersLargeTitles = true
         view.layoutSubviews()
+    }
+}
+
+extension TaskListViewController: TaskTableViewCellDelegate {
+    func didTouchStatusButton(id: Int) {
+        presenter.updateTaskStatus(id: id)
+    }
+    
+    func didSelectCell(id: Int) {
+        coordinator.navigateToAddNewTaskVC(from: self,
+                                           task: tasksList.flatMap { $0 }.first(where: { $0.id == id }))
     }
 }

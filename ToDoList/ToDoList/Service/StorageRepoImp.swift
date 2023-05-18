@@ -35,9 +35,9 @@ final class StorageRepoImp: StorageRepo {
         tasks.removeAll(where: { $0.id == id })
     }
     
-    func completeTask(id: Int) {
+    func updateTaskStatus(id: Int) {
         if let taskIndex = tasks.firstIndex(where: { $0.id == id }){
-            tasks[taskIndex].isCompleted = true
+            tasks[taskIndex].isCompleted.toggle()
         }
     }
 }
