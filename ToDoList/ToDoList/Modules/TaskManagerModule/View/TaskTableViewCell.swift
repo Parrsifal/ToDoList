@@ -15,31 +15,30 @@ final class TaskTableViewCell: UITableViewCell {
     @IBOutlet private weak var textDescriptionLabel: UILabel!
     static let identifier = "TaskCell"
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.reloadInputViews()
-    }
-    
     func configure(with task: Task) {
         taskTitleLabel.text = task.title
         if let description = task.description {
             textDescriptionLabel.text = description
+            textDescriptionLabel.isHidden = false
         } else {
             textDescriptionLabel.isHidden = true
         }
-        updateTaskStatus(isCompleted: task.isCompleted)
+        updateTaskStatus(task: task)
     }
     
-    func updateTaskStatus(isCompleted: Bool) {
+    func updateTaskStatus(task: Task) {
         isCompletedButton.layer.cornerRadius = Constants.cornerRadius
-        isCompletedButton.backgroundColor = isCompleted ? .red : .clear
+        isCompletedButton.backgroundColor = task.isCompleted ? .red : .clear
         
-        if isCompleted {
+        if task.isCompleted {
             let myAttribute = [NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue]
             let myAttrString = NSAttributedString(string: taskTitleLabel.text!, attributes: myAttribute)
             
             taskTitleLabel.attributedText = myAttrString
             taskTitleLabel.textColor = .lightGray
+        } else {
+            taskTitleLabel.attributedText = .none
+            taskTitleLabel.text = task.title
         }
     }
     

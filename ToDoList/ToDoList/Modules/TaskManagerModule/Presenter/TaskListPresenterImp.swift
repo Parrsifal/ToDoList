@@ -8,30 +8,29 @@
 import Foundation
 
 final class TaskListPresenterImp: TaskListPresenter {
-//    func addTask(task: Task) {
-//
-//    }
-//
     
-    private let taskListService: TaskListService
+    private let taskManagerService: TaskManagerService
+    private var view: TaskListView
     
-    init(with service: TaskListService) {
-        taskListService = service
+    init(with service: TaskManagerService, view: TaskListView) {
+        self.taskManagerService = service
+        self.view = view
     }
     
     func getTasks() -> [[Task]] {
-        let tasks = taskListService.getTasks()
+        let tasks = taskManagerService.getTasks()
         let activeTasks = tasks.filter { !$0.isCompleted }
         let completedTasks = tasks.filter { $0.isCompleted }
         return [activeTasks, completedTasks]
     }
     
-    
     func deleteTask(id: Int) {
-        taskListService.deleteTask(id: id)
+        taskManagerService.deleteTask(id: id)
+        view.reloadView()
     }
     
     func completeTask(id: Int) {
-        taskListService.completeTask(id: id)
+        taskManagerService.completeTask(id: id)
+        view.reloadView()
     }
 }

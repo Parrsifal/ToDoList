@@ -7,38 +7,33 @@
 
 import UIKit
 
-enum TaskDetailsScreenMode {
-    case addTask
-    case editTask
+enum TaskDetailsScreenMode: String {
+    case addTask = "Add Task"
+    case editTask = "Edit Task"
 }
 
-final class AddTaskViewController: UIViewController {
+final class AddTaskViewController: UIViewController, AddTaskView {
     
-    @IBOutlet weak var titleTextField: UITextField!
-    @IBOutlet weak var descriptionTextField: UITextField!
-    @IBOutlet weak var createTaskButton: UIButton!
-    @IBOutlet weak var titleErrorMessageLabel: UILabel!
-    @IBOutlet weak var bottomSpace: NSLayoutConstraint!
+    @IBOutlet private weak var titleTextField: UITextField!
+    @IBOutlet private weak var descriptionTextField: UITextField!
+    @IBOutlet private weak var createTaskButton: UIButton!
+    @IBOutlet private weak var titleErrorMessageLabel: UILabel!
+    @IBOutlet private weak var bottomSpace: NSLayoutConstraint!
     
-    var coordinator: Coordinator
-    var presenter: AddEditTaskPresenter
-    
-    var screenMode: TaskDetailsScreenMode = .addTask
-    var task: Task?
+    private var coordinator: Coordinator
+    public var presenter: AddEditTaskPresenter!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        screenMode = task != nil ? .editTask : .addTask
-        setUpAddTaskNavBar(screenMode)
+        setupTextFields()
+        setUpScreenMode()
         registerKeyboardNotifcations()
         createTaskButton.alpha = 0
         
     }
     
-    init(presenter: AddEditTaskPresenter, coordinator: Coordinator, task: Task? = nil) {
+    init(coordinator: Coordinator) {
         self.coordinator = coordinator
-        self.presenter = presenter
-        self.task = task
         super.init(nibName: String(describing: AddTaskViewController.self), bundle: nil)
     }
     
@@ -46,52 +41,39 @@ final class AddTaskViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setUpAddTaskNavBar(_ screenMode: TaskDetailsScreenMode) {
-        let title = screenMode == .addTask ? "Add Task" : "Edit Task"
-        
-        self.title = title
-        let buttonTitle = screenMode == .addTask ? "Create Task" : "Save Task"
+    func setUpScreenMode() {
+        self.title = presenter.setUpScreenMode().rawValue
+        let buttonTitle = presenter.setUpScreenMode().rawValue
         self.createTaskButton.setTitle(buttonTitle, for: .normal)
-        self.titleTextField.text = task?.title
+        self.titleTextField.text = presenter.getTask()?.title
         self.titleTextField.layer.cornerRadius = 15
-        self.descriptionTextField.text = task?.description
+        self.descriptionTextField.text = presenter.getTask()?.description
     }
     
-    private func setUpEditScreen() {
-        self.title = "Edit task"
-        titleTextField.text = task?.title
-        descriptionTextField.text = task?.description
+    @IBAction private func inputFieldsChanged(_ sender: UITextField) {
+        presenter.inputFieldsWasChanged(titleTextField.text!, descriptionTextField.text)
     }
     
-    @IBAction func InputFieldsChanged(_ sender: UITextField) {
-        if isValidTaskInput(titleTextField.text) && isValidTaskInput(descriptionTextField.text) {
-            
-            createTaskButton.isHidden = false
-            titleErrorMessageLabel.isHidden = true
+    func showButton(isHiden: Bool) {
+        if isHiden {
             UIView.animate(withDuration: 0.5) {
                 self.createTaskButton.alpha = 1.0
             }
         } else {
-            titleErrorMessageLabel.text = Constants.errorTitleMessage
-            titleErrorMessageLabel.isHidden = false
-            createTaskButton.isHidden = true
-            
+            self.createTaskButton.alpha = 0
         }
+        createTaskButton.isHidden = !isHiden
+        titleErrorMessageLabel.text = Constants.errorTitleMessage
+        titleErrorMessageLabel.isHidden = isHiden
     }
     
-    private func isValidTaskInput(_ inputText: String?) -> Bool {
-        if let inputText {
-            return (inputText.count > 4 && inputText.count < 15)
+    @IBAction private func buttonDidTouch(_ sender: UIButton) {
+        if presenter.getTask() != nil {
+            presenter.editTask(title: titleTextField.text!, description: descriptionTextField.text)
+        } else {
+            presenter.addTask(task: Task(title: titleTextField.text!, description: descriptionTextField.text))
         }
-        return false
-    }
-    
-    @IBAction func createTask(_ sender: UIButton) {
-        let newTask = Task(title: titleTextField.text! , description: descriptionTextField.text)
-      //  screenMode == .addTask ? presenter.addTask(task: newTask) : presenter.
-        presenter.addTask(task: newTask)
         coordinator.navigateToRootVC(from: self)
-        reloadStatus()
     }
     
     func reloadStatus() {
@@ -101,7 +83,19 @@ final class AddTaskViewController: UIViewController {
         createTaskButton.alpha = 0
     }
     
-    private func registerKeyboardNotifcations() {
+    func setupTextFields() {
+        let titleInset = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 40))
+        titleTextField.leftView = titleInset
+        titleTextField.leftViewMode = .always
+        titleTextField.layer.cornerRadius = 16
+        
+        let descriptionInset = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 40))
+        descriptionTextField.leftView = descriptionInset
+        descriptionTextField.leftViewMode = .always
+        descriptionTextField.layer.cornerRadius = 16
+    }
+    
+    func registerKeyboardNotifcations() {
         
         self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(hideKeyboard)))
         
@@ -128,14 +122,5 @@ final class AddTaskViewController: UIViewController {
     
     @objc private func keyaboardWillHide() {
         bottomSpace.constant = 34
-    }
-}
-
-extension AddTaskViewController: NavigationBarSetup {
-    func setUpNavBar() {
-        self.title = "Add Task"
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.prefersLargeTitles = true
     }
 }

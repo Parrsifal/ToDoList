@@ -8,6 +8,5 @@
 import Foundation
 
 protocol Service: AnyObject {
-    var taskListService: TaskListService { get }
-    var addEditTaskService: AddEditTaskService { get }
+    var taskManagerService: TaskManagerService { get }
 }

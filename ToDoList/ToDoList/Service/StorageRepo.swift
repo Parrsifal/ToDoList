@@ -10,7 +10,7 @@ import Foundation
 protocol StorageRepo {
     func getTasks() -> [Task]
     func addTask(task: Task)
-    func editTask(id: Int, title: String, descirption: String?)
+    func editTask(id: Int, title: String, description: String?)
     func deleteTask(id: Int)
     func completeTask(id: Int)
 }
