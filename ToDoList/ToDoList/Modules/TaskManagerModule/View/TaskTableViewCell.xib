@@ -13,18 +13,18 @@
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="161" id="KGk-i7-Jjw" customClass="TaskTableViewCell" customModule="ToDoList" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="479" height="161"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
                 <rect key="frame" x="0.0" y="0.0" width="479" height="161"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="lEV-bg-pNw" userLabel="HStack">
-                        <rect key="frame" x="0.0" y="5" width="81.333333333333329" height="151"/>
+                        <rect key="frame" x="0.0" y="4" width="81.333333333333329" height="152"/>
                         <subviews>
                             <view contentMode="scaleToFill" semanticContentAttribute="playback" translatesAutoresizingMaskIntoConstraints="NO" id="aKj-Mk-UkU" userLabel="ButtonView">
-                                <rect key="frame" x="0.0" y="50.666666666666657" width="32" height="50"/>
+                                <rect key="frame" x="0.0" y="60" width="32" height="32"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g5r-Xm-Iu0">
-                                        <rect key="frame" x="0.0" y="17.000000000000007" width="16" height="16"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g5r-Xm-Iu0">
+                                        <rect key="frame" x="0.0" y="8" width="16" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="16" id="E1r-JA-wEY"/>
                                             <constraint firstAttribute="width" constant="16" id="RVJ-rs-T77"/>
@@ -36,19 +36,20 @@
                                             </backgroundConfiguration>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="didTouchButton:" destination="KGk-i7-Jjw" eventType="touchUpOutside" id="h5p-Qc-NRV"/>
+                                            <action selector="didTouchStatusButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="RTr-q9-sE0"/>
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="g5r-Xm-Iu0" firstAttribute="leading" secondItem="aKj-Mk-UkU" secondAttribute="leading" id="E40-Q4-ne9"/>
+                                    <constraint firstAttribute="height" constant="32" id="L1g-Cy-pwI"/>
                                     <constraint firstAttribute="width" constant="32" id="V4i-y2-KbH"/>
                                     <constraint firstItem="g5r-Xm-Iu0" firstAttribute="centerY" secondItem="aKj-Mk-UkU" secondAttribute="centerY" id="esL-hl-6Bu"/>
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="CZp-t2-t8J" userLabel="VStack">
-                                <rect key="frame" x="32" y="48.333333333333343" width="49.333333333333343" height="54.666666666666657"/>
+                                <rect key="frame" x="32" y="48.666666666666671" width="49.333333333333343" height="54.666666666666671"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MainText" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xJM-yw-b7e">
                                         <rect key="frame" x="0.0" y="7.9999999999999982" width="41.333333333333336" height="19.333333333333329"/>
@@ -63,10 +64,12 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <gestureRecognizers/>
                                 <directionalEdgeInsets key="directionalLayoutMargins" top="8" leading="0.0" bottom="8" trailing="8"/>
                             </stackView>
                         </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="aKj-Mk-UkU" firstAttribute="centerY" secondItem="lEV-bg-pNw" secondAttribute="centerY" id="6I4-6E-fIu"/>
                         </constraints>
@@ -83,9 +86,9 @@
                     <constraint firstItem="4Bz-aE-ygR" firstAttribute="leading" secondItem="CZp-t2-t8J" secondAttribute="leading" id="6oG-Tb-UZU"/>
                     <constraint firstAttribute="bottom" secondItem="4Bz-aE-ygR" secondAttribute="bottom" id="6yR-cD-LAr"/>
                     <constraint firstItem="4Bz-aE-ygR" firstAttribute="top" secondItem="lEV-bg-pNw" secondAttribute="bottom" constant="4" id="i3M-9y-9k3"/>
-                    <constraint firstItem="lEV-bg-pNw" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="k81-vu-uhs"/>
                     <constraint firstAttribute="trailing" secondItem="4Bz-aE-ygR" secondAttribute="trailing" id="qK3-3A-RIO"/>
                     <constraint firstItem="lEV-bg-pNw" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="unu-As-aQU"/>
+                    <constraint firstItem="lEV-bg-pNw" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="4" id="wt6-mq-7ls"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
@@ -100,9 +103,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemGrayColor">
             <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

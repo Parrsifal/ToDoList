@@ -19,6 +19,7 @@ final class TaskTableViewCell: UITableViewCell {
     @IBOutlet private weak var isCompletedButton: UIButton!
     @IBOutlet private weak var taskTitleLabel: UILabel!
     @IBOutlet private weak var textDescriptionLabel: UILabel!
+    
     static let identifier = "TaskCell"
     weak var delegate: TaskTableViewCellDelegate?
     var task: Task?
@@ -77,13 +78,7 @@ final class TaskTableViewCell: UITableViewCell {
             delegate?.didTouchStatusButton(id: task.id)
         }
     }
-    
-    @IBAction func didSelectCell(_ sender: UIGestureRecognizer) {
-        if let task {
-            delegate?.didSelectCell(id: task.id)
-        }
-    }
-    
+
     static func getNib() -> UINib {
         let identifier = String(describing: TaskTableViewCell.self)
         return UINib(nibName: identifier, bundle: nil)
