@@ -10,7 +10,7 @@ import Foundation
 final class TaskListPresenterImp: TaskListPresenter {
     
     private let taskManagerService: TaskManagerService
-    private unowned var view: TaskListView
+    private unowned let view: TaskListView
     
     init(with service: TaskManagerService, view: TaskListView) {
         self.taskManagerService = service

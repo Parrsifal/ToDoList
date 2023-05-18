@@ -15,8 +15,8 @@ final class AddTaskViewController: UIViewController, AddTaskView {
     @IBOutlet private weak var titleErrorMessageLabel: UILabel!
     @IBOutlet private weak var bottomSpace: NSLayoutConstraint!
     
-    private var coordinator: Coordinator
-     var presenter: AddEditTaskPresenter!
+    private let coordinator: Coordinator
+    var presenter: AddEditTaskPresenter!
     
     override func viewDidLoad() {
         super.viewDidLoad()
