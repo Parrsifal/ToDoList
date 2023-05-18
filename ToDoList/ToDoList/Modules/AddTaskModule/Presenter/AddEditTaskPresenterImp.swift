@@ -10,9 +10,9 @@ import UIKit
 
 final class AddEditTaskPresenterImp: AddEditTaskPresenter {
     
-    private var taskManagerService: TaskManagerService
+    private let taskManagerService: TaskManagerService
     private var task: Task?
-    private unowned var view: AddTaskView
+    private unowned let view: AddTaskView
     
     init(with service: TaskManagerService, task: Task?, view: AddTaskView) {
         self.taskManagerService = service
@@ -42,7 +42,7 @@ final class AddEditTaskPresenterImp: AddEditTaskPresenter {
     }
     
     func setUpScreenMode(title: String, description: String?) {
-        if let task{
+        if let task {
             view.setUpEditScreenMode(title: task.title, description: task.description)
         } else {
             view.setUpAddScreenMode()

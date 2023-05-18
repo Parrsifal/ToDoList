@@ -13,7 +13,7 @@ final class TaskListViewController: UIViewController, TaskListView {
     @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var addTaskButton: UIButton!
     
-    private var coordinator: Coordinator
+    private let coordinator: Coordinator
     var presenter: TaskListPresenter!
     private var tasksList: [[Task]] {
         presenter.getTasks()
