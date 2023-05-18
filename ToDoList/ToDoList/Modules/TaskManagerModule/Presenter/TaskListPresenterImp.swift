@@ -10,7 +10,7 @@ import Foundation
 final class TaskListPresenterImp: TaskListPresenter {
     
     private let taskManagerService: TaskManagerService
-    private var view: TaskListView
+    private unowned var view: TaskListView
     
     init(with service: TaskManagerService, view: TaskListView) {
         self.taskManagerService = service
@@ -29,8 +29,8 @@ final class TaskListPresenterImp: TaskListPresenter {
         view.reloadView()
     }
     
-    func completeTask(id: Int) {
-        taskManagerService.completeTask(id: id)
+    func updateTaskStatus(id: Int) {
+        taskManagerService.updateTaskStatus(id: id)
         view.reloadView()
     }
 }

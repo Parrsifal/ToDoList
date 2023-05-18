@@ -10,5 +10,5 @@ import Foundation
 protocol TaskListPresenter {
     func getTasks() -> [[Task]]
     func deleteTask(id: Int)
-    func completeTask(id: Int)
+    func updateTaskStatus(id: Int)
 }

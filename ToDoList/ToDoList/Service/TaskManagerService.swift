@@ -11,7 +11,7 @@ protocol TaskManagerService {
     var storage: StorageRepo { get set }
     func getTasks() -> [Task]
     func deleteTask(id: Int)
-    func completeTask(id: Int)
+    func updateTaskStatus(id: Int)
     func editTask(id: Int, title: String, description: String?)
     func addTask(task: Task)
 }

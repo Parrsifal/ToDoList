@@ -7,11 +7,6 @@
 
 import UIKit
 
-enum TaskDetailsScreenMode: String {
-    case addTask = "Add Task"
-    case editTask = "Edit Task"
-}
-
 final class AddTaskViewController: UIViewController, AddTaskView {
     
     @IBOutlet private weak var titleTextField: UITextField!
@@ -21,7 +16,7 @@ final class AddTaskViewController: UIViewController, AddTaskView {
     @IBOutlet private weak var bottomSpace: NSLayoutConstraint!
     
     private var coordinator: Coordinator
-    public var presenter: AddEditTaskPresenter!
+     var presenter: AddEditTaskPresenter!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +24,6 @@ final class AddTaskViewController: UIViewController, AddTaskView {
         setUpScreenMode()
         registerKeyboardNotifcations()
         createTaskButton.alpha = 0
-        
     }
     
     init(coordinator: Coordinator) {
@@ -41,17 +35,29 @@ final class AddTaskViewController: UIViewController, AddTaskView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setUpScreenMode() {
-        self.title = presenter.setUpScreenMode().rawValue
-        let buttonTitle = presenter.setUpScreenMode().rawValue
-        self.createTaskButton.setTitle(buttonTitle, for: .normal)
-        self.titleTextField.text = presenter.getTask()?.title
-        self.titleTextField.layer.cornerRadius = 15
-        self.descriptionTextField.text = presenter.getTask()?.description
-    }
-    
     @IBAction private func inputFieldsChanged(_ sender: UITextField) {
         presenter.inputFieldsWasChanged(titleTextField.text!, descriptionTextField.text)
+    }
+    
+    @IBAction private func buttonDidTouch(_ sender: UIButton) {
+        presenter.buttonDidTouch(title: titleTextField.text!, description: descriptionTextField.text)
+        coordinator.navigateToRootVC(from: self)
+    }
+    
+    func setUpScreenMode() {
+        presenter.setUpScreenMode(title: titleTextField.text ?? "", description: descriptionTextField.text)
+    }
+    
+     func setUpEditScreenMode(title: String, description: String?){
+        self.title = "Edit task"
+        self.createTaskButton.setTitle("Save task", for: .normal)
+        self.descriptionTextField.text = description
+        self.titleTextField.text = title
+    }
+    
+     func setUpAddScreenMode(){
+        self.title = "Add task"
+        self.createTaskButton.setTitle("Add task", for: .normal)
     }
     
     func showButton(isHiden: Bool) {
@@ -65,15 +71,6 @@ final class AddTaskViewController: UIViewController, AddTaskView {
         createTaskButton.isHidden = !isHiden
         titleErrorMessageLabel.text = Constants.errorTitleMessage
         titleErrorMessageLabel.isHidden = isHiden
-    }
-    
-    @IBAction private func buttonDidTouch(_ sender: UIButton) {
-        if presenter.getTask() != nil {
-            presenter.editTask(title: titleTextField.text!, description: descriptionTextField.text)
-        } else {
-            presenter.addTask(task: Task(title: titleTextField.text!, description: descriptionTextField.text))
-        }
-        coordinator.navigateToRootVC(from: self)
     }
     
     func reloadStatus() {
@@ -95,7 +92,7 @@ final class AddTaskViewController: UIViewController, AddTaskView {
         descriptionTextField.layer.cornerRadius = 16
     }
     
-    func registerKeyboardNotifcations() {
+    private func registerKeyboardNotifcations() {
         
         self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(hideKeyboard)))
         

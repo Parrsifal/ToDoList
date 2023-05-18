@@ -35,6 +35,9 @@
                                                 <color key="strokeColor" systemColor="systemRedColor"/>
                                             </backgroundConfiguration>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="didTouchButton:" destination="KGk-i7-Jjw" eventType="touchUpOutside" id="h5p-Qc-NRV"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -60,6 +63,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
+                                <gestureRecognizers/>
                                 <directionalEdgeInsets key="directionalLayoutMargins" top="8" leading="0.0" bottom="8" trailing="8"/>
                             </stackView>
                         </subviews>
@@ -90,6 +94,7 @@
                 <outlet property="separatorView" destination="4Bz-aE-ygR" id="M4F-xa-RZL"/>
                 <outlet property="taskTitleLabel" destination="xJM-yw-b7e" id="QR6-C8-xgu"/>
                 <outlet property="textDescriptionLabel" destination="mXJ-Zq-QSe" id="EsY-69-xrQ"/>
+                <outlet property="textFieldsVStack" destination="CZp-t2-t8J" id="gIe-Ks-HmH"/>
             </connections>
             <point key="canvasLocation" x="-100" y="50.352112676056343"/>
         </tableViewCell>

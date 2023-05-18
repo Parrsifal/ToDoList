@@ -10,13 +10,9 @@ import UIKit
 
 final class AddEditTaskPresenterImp: AddEditTaskPresenter {
     
-    func getTask() -> Task? {
-        return self.task
-    }
-    
     private var taskManagerService: TaskManagerService
     private var task: Task?
-    private  var view: AddTaskView
+    private unowned var view: AddTaskView
     
     init(with service: TaskManagerService, task: Task?, view: AddTaskView) {
         self.taskManagerService = service
@@ -24,8 +20,8 @@ final class AddEditTaskPresenterImp: AddEditTaskPresenter {
         self.view = view
     }
     
-    func setView(view : AddTaskView){
-        self.view = view
+    func getTask() -> Task? {
+        return self.task
     }
     
     func addTask(task: Task) {
@@ -37,10 +33,23 @@ final class AddEditTaskPresenterImp: AddEditTaskPresenter {
         view.reloadStatus()
     }
     
-    func setUpScreenMode() -> TaskDetailsScreenMode {
-        return task != nil ? .editTask : .addTask
+    func buttonDidTouch(title: String, description: String?) {
+        if let task {
+            taskManagerService.editTask(id: task.id, title: title, description: description)
+        } else {
+            taskManagerService.addTask(task: Task(title: title, description: description))
+        }
     }
     
+    func setUpScreenMode(title: String, description: String?) {
+        if let task{
+            view.setUpEditScreenMode(title: task.title, description: task.description)
+        } else {
+            view.setUpAddScreenMode()
+        }
+        
+    }
+
     func inputFieldsWasChanged(_ title: String, _ description: String?) {
         
         let isValidTitle = (title.count > 4 && title.count < 15)
