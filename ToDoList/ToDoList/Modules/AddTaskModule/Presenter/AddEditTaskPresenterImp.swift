@@ -23,16 +23,7 @@ final class AddEditTaskPresenterImp: AddEditTaskPresenter {
     func getTask() -> Task? {
         return self.task
     }
-    
-    func addTask(task: Task) {
-        taskManagerService.addTask(task: task)
-    }
-    
-    func editTask(title: String, description: String?) {
-        taskManagerService.editTask(id: task!.id, title: title, description: description)
-        view.reloadStatus()
-    }
-    
+        
     func buttonDidTouch(title: String, description: String?) {
         if let task {
             taskManagerService.editTask(id: task.id, title: title, description: description)
