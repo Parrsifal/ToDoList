@@ -11,7 +11,7 @@ import UIKit
 final class AddEditTaskPresenterImp: AddEditTaskPresenter {
     
     private let taskManagerService: TaskManagerService
-    private var task: Task?
+    private let task: Task?
     private unowned let view: AddTaskView
     
     init(with service: TaskManagerService, task: Task?, view: AddTaskView) {

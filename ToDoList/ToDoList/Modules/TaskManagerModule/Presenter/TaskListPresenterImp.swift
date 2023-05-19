@@ -33,4 +33,9 @@ final class TaskListPresenterImp: TaskListPresenter {
         taskManagerService.updateTaskStatus(id: id)
         view.reloadView()
     }
+    
+    func rerangeTasks(firstId: Int, secondId: Int) {
+        taskManagerService.rerangeTasks(firstTaskId: firstId, secondTaskId: secondId)
+        view.reloadView()
+    }
 }

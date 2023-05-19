@@ -33,4 +33,8 @@ final class TaskManagerServiceImp: TaskManagerService {
     func editTask(id: Int, title: String, description: String?) {
         storage.editTask(id: id, title: title, description: description)
     }
+    
+    func rerangeTasks(firstTaskId: Int, secondTaskId: Int) {
+        storage.rerangeTasks(firstTaskId: firstTaskId, secondTaskId: secondTaskId)
+    }
 }

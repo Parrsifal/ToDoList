@@ -45,9 +45,9 @@ final class AddTaskViewController: UIViewController, AddTaskView {
     }
     
     private func setUpScreenMode() {
-        presenter.setUpScreenMode(title: titleTextField.text ?? "", description: descriptionTextField.text)
+       presenter.setUpScreenMode(title: titleTextField.text ?? "", description: descriptionTextField.text)
     }
-    
+
      func setUpEditScreenMode(title: String, description: String?){
         self.title = "Edit task"
         self.createTaskButton.setTitle("Save task", for: .normal)

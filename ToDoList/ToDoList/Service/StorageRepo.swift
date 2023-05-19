@@ -13,4 +13,5 @@ protocol StorageRepo {
     func editTask(id: Int, title: String, description: String?)
     func deleteTask(id: Int)
     func updateTaskStatus(id: Int)
+    func rerangeTasks(firstTaskId: Int, secondTaskId: Int)
 }
