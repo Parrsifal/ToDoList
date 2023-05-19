@@ -44,7 +44,7 @@ final class AddTaskViewController: UIViewController, AddTaskView {
         coordinator.navigateToRootVC(from: self)
     }
     
-    func setUpScreenMode() {
+    private func setUpScreenMode() {
         presenter.setUpScreenMode(title: titleTextField.text ?? "", description: descriptionTextField.text)
     }
     
@@ -80,16 +80,16 @@ final class AddTaskViewController: UIViewController, AddTaskView {
         createTaskButton.alpha = 0
     }
     
-    func setupTextFields() {
-        let titleInset = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 40))
-        titleTextField.leftView = titleInset
-        titleTextField.leftViewMode = .always
-        titleTextField.layer.cornerRadius = 16
-        
-        let descriptionInset = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 40))
-        descriptionTextField.leftView = descriptionInset
-        descriptionTextField.leftViewMode = .always
-        descriptionTextField.layer.cornerRadius = 16
+    private func setupTextFields() {
+        configureTextFieldsStyle(textField: titleTextField)
+        configureTextFieldsStyle(textField: descriptionTextField)
+    }
+    
+    private func configureTextFieldsStyle(textField: UITextField) {
+        let insetView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 40))
+        textField.leftView = insetView
+        textField.leftViewMode = .always
+        textField.layer.cornerRadius = 16
     }
     
     private func registerKeyboardNotifcations() {
