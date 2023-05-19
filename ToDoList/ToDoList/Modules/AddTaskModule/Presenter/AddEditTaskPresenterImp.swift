@@ -11,7 +11,7 @@ import UIKit
 final class AddEditTaskPresenterImp: AddEditTaskPresenter {
     
     private let taskManagerService: TaskManagerService
-    private var task: Task?
+    private let task: Task?
     private unowned let view: AddTaskView
     
     init(with service: TaskManagerService, task: Task?, view: AddTaskView) {
@@ -32,7 +32,7 @@ final class AddEditTaskPresenterImp: AddEditTaskPresenter {
         }
     }
     
-    func setUpScreenMode(title: String, description: String?) {
+    func setUpScreenMode() {
         if let task {
             view.setUpEditScreenMode(title: task.title, description: task.description)
         } else {
@@ -40,17 +40,16 @@ final class AddEditTaskPresenterImp: AddEditTaskPresenter {
         }
         
     }
-
+    
     func inputFieldsWasChanged(_ title: String, _ description: String?) {
         
         let isValidTitle = (title.count > 4 && title.count < 15)
-        var isHiden = isValidTitle
+        var isHidden = isValidTitle
         
         if let description {
             let isValidDescription = description.count == 0 || (description.count > 4 && description.count < 15 )
-            isHiden = isValidTitle && isValidDescription
+            isHidden = isValidTitle && isValidDescription
         }
-        view.showButton(isHiden: isHiden)
+        view.showButton(isHidden: isHidden)
     }
-    
 }

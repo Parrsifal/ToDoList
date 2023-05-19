@@ -40,6 +40,13 @@ final class StorageRepoImp: StorageRepo {
             tasks[taskIndex].isCompleted.toggle()
         }
     }
+    
+    func rearrengeTasks(firstTaskId: Int, secondTaskId: Int) {
+        guard let firstTask = tasks.firstIndex(where: { $0.id == firstTaskId }) else { return }
+        guard let secondTask = tasks.firstIndex(where: { $0.id == secondTaskId }) else { return }
+
+        tasks.swapAt(firstTask, secondTask)
+    }
 }
 
 extension StorageRepoImp {

@@ -35,6 +35,31 @@ final class AddTaskViewController: UIViewController, AddTaskView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setUpEditScreenMode(title: String, description: String?){
+        self.title = "Edit task"
+        self.createTaskButton.setTitle("Save task", for: .normal)
+        self.descriptionTextField.text = description
+        self.titleTextField.text = title
+    }
+    
+    func setUpAddScreenMode() {
+        self.title = "Add task"
+        self.createTaskButton.setTitle("Add task", for: .normal)
+    }
+    
+    func showButton(isHidden: Bool) {
+        if isHidden {
+            UIView.animate(withDuration: 0.5) {
+                self.createTaskButton.alpha = 1.0
+            }
+        } else {
+            self.createTaskButton.alpha = 0
+        }
+        createTaskButton.isHidden = !isHidden
+        titleErrorMessageLabel.text = Constants.errorTitleMessage
+        titleErrorMessageLabel.isHidden = isHidden
+    }
+    
     @IBAction private func inputFieldsChanged(_ sender: UITextField) {
         presenter.inputFieldsWasChanged(titleTextField.text!, descriptionTextField.text)
     }
@@ -45,41 +70,9 @@ final class AddTaskViewController: UIViewController, AddTaskView {
     }
     
     private func setUpScreenMode() {
-        presenter.setUpScreenMode(title: titleTextField.text ?? "", description: descriptionTextField.text)
+        presenter.setUpScreenMode()
     }
-    
-     func setUpEditScreenMode(title: String, description: String?){
-        self.title = "Edit task"
-        self.createTaskButton.setTitle("Save task", for: .normal)
-        self.descriptionTextField.text = description
-        self.titleTextField.text = title
-    }
-    
-     func setUpAddScreenMode(){
-        self.title = "Add task"
-        self.createTaskButton.setTitle("Add task", for: .normal)
-    }
-    
-    func showButton(isHiden: Bool) {
-        if isHiden {
-            UIView.animate(withDuration: 0.5) {
-                self.createTaskButton.alpha = 1.0
-            }
-        } else {
-            self.createTaskButton.alpha = 0
-        }
-        createTaskButton.isHidden = !isHiden
-        titleErrorMessageLabel.text = Constants.errorTitleMessage
-        titleErrorMessageLabel.isHidden = isHiden
-    }
-    
-    func reloadStatus() {
-        titleTextField.text = ""
-        descriptionTextField.text = ""
-        hideKeyboard()
-        createTaskButton.alpha = 0
-    }
-    
+     
     private func setupTextFields() {
         configureTextFieldsStyle(textField: titleTextField)
         configureTextFieldsStyle(textField: descriptionTextField)

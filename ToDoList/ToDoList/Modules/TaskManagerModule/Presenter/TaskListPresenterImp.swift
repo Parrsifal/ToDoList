@@ -26,11 +26,20 @@ final class TaskListPresenterImp: TaskListPresenter {
     
     func deleteTask(id: Int) {
         taskManagerService.deleteTask(id: id)
-        view.reloadView()
+        view.updateTaskListData(tasks: self.getTasks())
     }
     
     func updateTaskStatus(id: Int) {
         taskManagerService.updateTaskStatus(id: id)
-        view.reloadView()
+        view.updateTaskListData(tasks: self.getTasks())
+    }
+    
+    func rearrengeTasks(firstId: Int, secondId: Int) {
+        taskManagerService.rearrengeTasks(firstTaskId: firstId, secondTaskId: secondId)
+        view.updateTaskListData(tasks: self.getTasks())
+    }
+    
+    func updateTaskListData() {
+        view.updateTaskListData(tasks: self.getTasks())
     }
 }

@@ -14,5 +14,6 @@ protocol TaskManagerService {
     func updateTaskStatus(id: Int)
     func editTask(id: Int, title: String, description: String?)
     func addTask(task: Task)
+    func rearrengeTasks(firstTaskId: Int, secondTaskId: Int)
 }
 

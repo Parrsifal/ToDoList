@@ -15,9 +15,7 @@ final class TaskListViewController: UIViewController, TaskListView {
     
     private let coordinator: Coordinator
     var presenter: TaskListPresenter!
-    private var tasksList: [[Task]] {
-        presenter.getTasks()
-    }
+    private var tasksList: [[Task]]!
     
     init(coordinator: Coordinator) {
         self.coordinator = coordinator
@@ -36,10 +34,15 @@ final class TaskListViewController: UIViewController, TaskListView {
         setUpNavBar()
         setUpTableView()
         setUpBackButton()
-        
+        setUpEditButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        presenter.updateTaskListData()
+    }
+    
+    func updateTaskListData(tasks: [[Task]]) {
+        self.tasksList = tasks
         taskListTableView.reloadData()
     }
     
@@ -51,6 +54,42 @@ final class TaskListViewController: UIViewController, TaskListView {
         let backButton = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
         backButton.tintColor = .red
         navigationItem.backBarButtonItem = backButton
+    }
+    
+    private func setUpEditButton() {
+        
+        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        
+        let systemIconView = UIImageView(image: UIImage(systemName: "list.bullet"))
+        systemIconView.contentMode = .scaleAspectFit
+        systemIconView.tintColor = .red
+        systemIconView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let editButton = UIButton(type: .system)
+        editButton.setTitle("Edit", for: .normal)
+        editButton.setTitleColor(.red, for: .normal)
+        editButton.addTarget(self, action: #selector(toggleEditMode), for: .touchUpInside)
+        editButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        containerView.addSubview(systemIconView)
+        containerView.addSubview(editButton)
+        
+        NSLayoutConstraint.activate([
+            systemIconView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 4),
+            systemIconView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            systemIconView.widthAnchor.constraint(equalToConstant: 24),
+            systemIconView.heightAnchor.constraint(equalToConstant: 24)
+        ])
+        
+        NSLayoutConstraint.activate([
+            editButton.leadingAnchor.constraint(equalTo: systemIconView.trailingAnchor, constant: 0),
+            editButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -30),
+            editButton.topAnchor.constraint(equalTo: containerView.topAnchor),
+            editButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
+        ])
+        
+        let customBarButtonItem = UIBarButtonItem(customView: containerView)
+        navigationItem.rightBarButtonItem = customBarButtonItem
     }
     
     private func setUpTableView() {
@@ -72,11 +111,12 @@ final class TaskListViewController: UIViewController, TaskListView {
         presenter.updateTaskStatus(id: task.id)
     }
     
-    func reloadView() {
-        taskListTableView.reloadData()
+    @objc private func toggleEditMode() {
+        let isEditing = taskListTableView.isEditing
+        taskListTableView.setEditing(!isEditing, animated: true)
     }
     
-    func createDeleteAction(task: Task) -> UIContextualAction  {
+    private func createDeleteAction(task: Task) -> UIContextualAction  {
         let deleteAction =  UIContextualAction(
             style: .destructive,
             title: nil) { [weak self]
@@ -125,9 +165,12 @@ extension TaskListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         true
     }
-    //not yet worked
+    
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        
+        sourceIndexPath.section != destinationIndexPath.section
+        ? tableView.reloadData()
+        : presenter.rearrengeTasks(firstId: tasksList[sourceIndexPath.section][sourceIndexPath.row].id,
+                                   secondId: tasksList[destinationIndexPath.section][destinationIndexPath.row].id)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
