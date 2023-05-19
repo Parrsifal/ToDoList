@@ -8,7 +8,7 @@
 import Foundation
 
 protocol AddTaskView: AnyObject {
-    func showButton(isHiden: Bool)
+    func showButton(isHidden: Bool)
     func setUpEditScreenMode(title: String, description: String?)
     func setUpAddScreenMode()
 }

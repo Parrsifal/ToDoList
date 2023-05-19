@@ -44,12 +44,12 @@ final class AddEditTaskPresenterImp: AddEditTaskPresenter {
     func inputFieldsWasChanged(_ title: String, _ description: String?) {
         
         let isValidTitle = (title.count > 4 && title.count < 15)
-        var isHiden = isValidTitle
+        var isHidden = isValidTitle
         
         if let description {
             let isValidDescription = description.count == 0 || (description.count > 4 && description.count < 15 )
-            isHiden = isValidTitle && isValidDescription
+            isHidden = isValidTitle && isValidDescription
         }
-        view.showButton(isHiden: isHiden)
+        view.showButton(isHidden: isHidden)
     }
 }

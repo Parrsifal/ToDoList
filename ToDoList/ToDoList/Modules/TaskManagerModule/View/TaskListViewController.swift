@@ -40,14 +40,14 @@ final class TaskListViewController: UIViewController, TaskListView {
     override func viewWillAppear(_ animated: Bool) {
         presenter.updateTaskListData()
     }
-
-    @IBAction private func didTouchButton(_ sender: UIButton) {
-        coordinator.navigateToAddNewTaskVC(from: self, task: nil)
-    }
     
     func updateTaskListData(tasks: [[Task]]) {
         self.tasksList = tasks
         taskListTableView.reloadData()
+    }
+    
+    @IBAction private func didTouchButton(_ sender: UIButton) {
+        coordinator.navigateToAddNewTaskVC(from: self, task: nil)
     }
     
     private func setUpBackButton() {
@@ -116,7 +116,7 @@ final class TaskListViewController: UIViewController, TaskListView {
         taskListTableView.setEditing(!isEditing, animated: true)
     }
     
-    func createDeleteAction(task: Task) -> UIContextualAction  {
+    private func createDeleteAction(task: Task) -> UIContextualAction  {
         let deleteAction =  UIContextualAction(
             style: .destructive,
             title: nil) { [weak self]
@@ -165,11 +165,12 @@ extension TaskListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         true
     }
+    
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         sourceIndexPath.section != destinationIndexPath.section
         ? tableView.reloadData()
         : presenter.rearrengeTasks(firstId: tasksList[sourceIndexPath.section][sourceIndexPath.row].id,
-                            secondId: tasksList[destinationIndexPath.section][destinationIndexPath.row].id)
+                                   secondId: tasksList[destinationIndexPath.section][destinationIndexPath.row].id)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

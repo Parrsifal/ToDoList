@@ -35,19 +35,6 @@ final class AddTaskViewController: UIViewController, AddTaskView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @IBAction private func inputFieldsChanged(_ sender: UITextField) {
-        presenter.inputFieldsWasChanged(titleTextField.text!, descriptionTextField.text)
-    }
-    
-    @IBAction private func buttonDidTouch(_ sender: UIButton) {
-        presenter.buttonDidTouch(title: titleTextField.text!, description: descriptionTextField.text)
-        coordinator.navigateToRootVC(from: self)
-    }
-    
-    private func setUpScreenMode() {
-        presenter.setUpScreenMode()
-    }
-    
     func setUpEditScreenMode(title: String, description: String?){
         self.title = "Edit task"
         self.createTaskButton.setTitle("Save task", for: .normal)
@@ -60,17 +47,30 @@ final class AddTaskViewController: UIViewController, AddTaskView {
         self.createTaskButton.setTitle("Add task", for: .normal)
     }
     
-    func showButton(isHiden: Bool) {
-        if isHiden {
+    func showButton(isHidden: Bool) {
+        if isHidden {
             UIView.animate(withDuration: 0.5) {
                 self.createTaskButton.alpha = 1.0
             }
         } else {
             self.createTaskButton.alpha = 0
         }
-        createTaskButton.isHidden = !isHiden
+        createTaskButton.isHidden = !isHidden
         titleErrorMessageLabel.text = Constants.errorTitleMessage
-        titleErrorMessageLabel.isHidden = isHiden
+        titleErrorMessageLabel.isHidden = isHidden
+    }
+    
+    @IBAction private func inputFieldsChanged(_ sender: UITextField) {
+        presenter.inputFieldsWasChanged(titleTextField.text!, descriptionTextField.text)
+    }
+    
+    @IBAction private func buttonDidTouch(_ sender: UIButton) {
+        presenter.buttonDidTouch(title: titleTextField.text!, description: descriptionTextField.text)
+        coordinator.navigateToRootVC(from: self)
+    }
+    
+    private func setUpScreenMode() {
+        presenter.setUpScreenMode()
     }
      
     private func setupTextFields() {
