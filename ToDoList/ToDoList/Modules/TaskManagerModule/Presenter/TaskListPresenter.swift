@@ -11,5 +11,6 @@ protocol TaskListPresenter {
     func getTasks() -> [[Task]]
     func deleteTask(id: Int)
     func updateTaskStatus(id: Int)
-    func rerangeTasks(firstId: Int, secondId: Int)
+    func updateTaskListData()
+    func rearrengeTasks(firstId: Int, secondId: Int)
 }

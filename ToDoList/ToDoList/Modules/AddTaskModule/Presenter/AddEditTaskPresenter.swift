@@ -10,6 +10,6 @@ import Foundation
 protocol AddEditTaskPresenter {
     func getTask() -> Task?
     func inputFieldsWasChanged(_ title: String, _ description: String?)
-    func setUpScreenMode(title: String, description: String?)
+    func setUpScreenMode()
     func buttonDidTouch(title: String, description: String?)
 }

@@ -45,17 +45,17 @@ final class AddTaskViewController: UIViewController, AddTaskView {
     }
     
     private func setUpScreenMode() {
-       presenter.setUpScreenMode(title: titleTextField.text ?? "", description: descriptionTextField.text)
+        presenter.setUpScreenMode()
     }
-
-     func setUpEditScreenMode(title: String, description: String?){
+    
+    func setUpEditScreenMode(title: String, description: String?){
         self.title = "Edit task"
         self.createTaskButton.setTitle("Save task", for: .normal)
         self.descriptionTextField.text = description
         self.titleTextField.text = title
     }
     
-     func setUpAddScreenMode(){
+    func setUpAddScreenMode() {
         self.title = "Add task"
         self.createTaskButton.setTitle("Add task", for: .normal)
     }
@@ -72,14 +72,7 @@ final class AddTaskViewController: UIViewController, AddTaskView {
         titleErrorMessageLabel.text = Constants.errorTitleMessage
         titleErrorMessageLabel.isHidden = isHiden
     }
-    
-    func reloadStatus() {
-        titleTextField.text = ""
-        descriptionTextField.text = ""
-        hideKeyboard()
-        createTaskButton.alpha = 0
-    }
-    
+     
     private func setupTextFields() {
         configureTextFieldsStyle(textField: titleTextField)
         configureTextFieldsStyle(textField: descriptionTextField)

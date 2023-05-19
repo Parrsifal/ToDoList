@@ -32,7 +32,7 @@ final class AddEditTaskPresenterImp: AddEditTaskPresenter {
         }
     }
     
-    func setUpScreenMode(title: String, description: String?) {
+    func setUpScreenMode() {
         if let task {
             view.setUpEditScreenMode(title: task.title, description: task.description)
         } else {
@@ -40,7 +40,7 @@ final class AddEditTaskPresenterImp: AddEditTaskPresenter {
         }
         
     }
-
+    
     func inputFieldsWasChanged(_ title: String, _ description: String?) {
         
         let isValidTitle = (title.count > 4 && title.count < 15)
@@ -52,5 +52,4 @@ final class AddEditTaskPresenterImp: AddEditTaskPresenter {
         }
         view.showButton(isHiden: isHiden)
     }
-    
 }

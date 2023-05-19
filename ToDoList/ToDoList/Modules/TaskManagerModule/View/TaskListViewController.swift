@@ -15,9 +15,7 @@ final class TaskListViewController: UIViewController, TaskListView {
     
     private let coordinator: Coordinator
     var presenter: TaskListPresenter!
-    private var tasksList: [[Task]] {
-        presenter.getTasks()
-    }
+    private var tasksList: [[Task]]!
     
     init(coordinator: Coordinator) {
         self.coordinator = coordinator
@@ -40,23 +38,16 @@ final class TaskListViewController: UIViewController, TaskListView {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        taskListTableView.reloadData()
+        presenter.updateTaskListData()
     }
-//
-//    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-//     super.traitCollectionDidChange(previousTraitCollection)
-//             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-////            self.view.setNeedsLayout()
-////            self.view.setNeedsDisplay()
-//            //self.view.layoutIfNeeded()
-//            taskListTableView.reloadData()
-//
-//           }
-//    }
 
-    
     @IBAction private func didTouchButton(_ sender: UIButton) {
         coordinator.navigateToAddNewTaskVC(from: self, task: nil)
+    }
+    
+    func updateTaskListData(tasks: [[Task]]) {
+        self.tasksList = tasks
+        taskListTableView.reloadData()
     }
     
     private func setUpBackButton() {
@@ -120,10 +111,6 @@ final class TaskListViewController: UIViewController, TaskListView {
         presenter.updateTaskStatus(id: task.id)
     }
     
-    func reloadView() {
-        taskListTableView.reloadData()
-    }
-    
     @objc private func toggleEditMode() {
         let isEditing = taskListTableView.isEditing
         taskListTableView.setEditing(!isEditing, animated: true)
@@ -181,7 +168,7 @@ extension TaskListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         sourceIndexPath.section != destinationIndexPath.section
         ? tableView.reloadData()
-        : presenter.rerangeTasks(firstId: tasksList[sourceIndexPath.section][sourceIndexPath.row].id,
+        : presenter.rearrengeTasks(firstId: tasksList[sourceIndexPath.section][sourceIndexPath.row].id,
                             secondId: tasksList[destinationIndexPath.section][destinationIndexPath.row].id)
     }
     
