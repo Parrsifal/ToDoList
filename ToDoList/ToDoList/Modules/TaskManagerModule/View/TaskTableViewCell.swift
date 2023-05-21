@@ -42,7 +42,7 @@ final class TaskTableViewCell: UITableViewCell {
         textFieldsVStack.isUserInteractionEnabled = true
         textFieldsVStack.addGestureRecognizer(tap)
     }
-    
+
     private func updateTaskStatus() {
         guard let task else { return }
         

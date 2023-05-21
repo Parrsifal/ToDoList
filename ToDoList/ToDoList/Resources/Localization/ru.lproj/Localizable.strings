@@ -1,0 +1,21 @@
+/* 
+ Localizable.strings
+ ToDoList
+ 
+ Created by Dmitrii Sorochin on 19.05.2023.
+ 
+ */
+
+"Add task" = "Добавить задачу";
+"Edit task" = "Изменить задачу";
+"Task Manager" = "Задачи";
+"Save task" = "Сохранить задачу";
+"Active" = "Активные";
+"Completed" = "Заверешнные";
+"Enter you title..." = "Введите название...";
+"Enter an optionl description..." = "Введите необязательное описание...";
+"Delete Confirmation" = "Подверждение";
+"Delete the task?" = "Удалить задачу?";
+"Back" = "Назад";
+"Yes" = "Да";
+"No" = "Нет";

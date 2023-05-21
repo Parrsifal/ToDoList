@@ -41,5 +41,6 @@ final class TaskListPresenterImp: TaskListPresenter {
     
     func updateTaskListData() {
         view.updateTaskListData(tasks: self.getTasks())
+        view.updateViewBackground(isHidden: self.getTasks().allSatisfy({ $0.isEmpty }))
     }
 }
