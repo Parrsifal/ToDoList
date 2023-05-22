@@ -22,3 +22,12 @@ struct Task {
         self.description = description
     }
 }
+
+extension Task {
+    init(taskEntity: TaskEntity){
+        self.id = Int(taskEntity.id)
+        self.title = taskEntity.title ?? ""
+        self.description = taskEntity.taskDescription
+        self.isCompleted = taskEntity.isCompleted
+    }
+}
