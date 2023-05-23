@@ -8,8 +8,8 @@
 import UIKit
 
 protocol TaskTableViewCellDelegate: AnyObject {
-    func didTouchStatusButton(id: Int)
-    func didSelectCell(id: Int)
+    func didTouchStatusButton(id: UUID)
+    func didSelectCell(id: UUID)
 }
 
 final class TaskTableViewCell: UITableViewCell {

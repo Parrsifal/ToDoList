@@ -24,12 +24,12 @@ final class TaskListPresenterImp: TaskListPresenter {
         return [activeTasks, completedTasks]
     }
     
-    func deleteTask(id: Int) {
+    func deleteTask(id: UUID) {
         taskManagerService.deleteTask(id: id)
         view.updateTaskListData(tasks: self.getTasks())
     }
     
-    func updateTaskStatus(id: Int) {
+    func updateTaskStatus(id: UUID) {
         taskManagerService.updateTaskStatus(id: id)
         view.updateTaskListData(tasks: self.getTasks())
     }

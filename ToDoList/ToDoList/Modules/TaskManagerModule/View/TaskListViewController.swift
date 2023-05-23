@@ -173,8 +173,8 @@ extension TaskListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         sourceIndexPath.section != destinationIndexPath.section
         ? tableView.reloadData()
-        : presenter.rearrengeTasks(firstId: tasksList[sourceIndexPath.section][sourceIndexPath.row].id,
-                                   secondId: tasksList[destinationIndexPath.section][destinationIndexPath.row].id)
+        : presenter.rearrengeTasks(firstId: sourceIndexPath.row,
+                                   secondId: destinationIndexPath.row)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -262,11 +262,11 @@ extension TaskListViewController: NavigationBarSetup {
 }
 
 extension TaskListViewController: TaskTableViewCellDelegate {
-    func didTouchStatusButton(id: Int) {
+    func didTouchStatusButton(id: UUID) {
         presenter.updateTaskStatus(id: id)
     }
     
-    func didSelectCell(id: Int) {
+    func didSelectCell(id: UUID) {
         coordinator.navigateToAddNewTaskVC(from: self,
                                            task: tasksList.flatMap { $0 }.first(where: { $0.id == id }))
     }

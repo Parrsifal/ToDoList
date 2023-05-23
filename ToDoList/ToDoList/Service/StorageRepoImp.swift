@@ -11,7 +11,7 @@ import UIKit
 final class StorageRepoImp: StorageRepo {
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    private var tasks: [Task] = []
+    private var fetchedTasks = [TaskEntity]()
     private var id = 0
     
     init() {
@@ -19,84 +19,69 @@ final class StorageRepoImp: StorageRepo {
     }
     
     func addTask(task: Task) {
-        createObject(id: Int64(task.id), title: task.title, description: task.description)
+        createObject(id: task.id, title: task.title, description: task.description)
         fetchTasks()
     }
     
     func getTasks() -> [Task] {
-        return tasks
+        return fetchedTasks.map({ Task(taskEntity: $0) })
     }
     
-    func editTask(id: Int, title: String, description: String?) {
-        let fetchRequest: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id == %d", Int64(id))
-        
+    func editTask(id: UUID, title: String, description: String?) {
+        fetchTasks()
+        guard let taskIndex = fetchedTasks.firstIndex(where: { $0.id == id } ) else { return }
+        fetchedTasks[taskIndex].title = title
+        fetchedTasks[taskIndex].taskDescription = description
         do {
-            let fetchedTasks = try context.fetch(fetchRequest)
-            if let taskToEdit = fetchedTasks.first {
-                taskToEdit.title = title
-                taskToEdit.taskDescription = description
-                try self.context.save()
-            }
+            try self.context.save()
         } catch {
             fatalError("Cant edit the task")
         }
+    }
+    
+    func deleteTask(id: UUID) {
+        guard let taskToDelete = fetchedTasks.first(where: { $0.id == id }) else { return }
+        do {
+            self.context.delete(taskToDelete)
+            try self.context.save()
+        } catch {
+            fatalError("Cant delete the task")
+        }
         fetchTasks()
     }
     
-    func deleteTask(id: Int) {
-        let fetchRequest: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
+    func updateTaskStatus(id: UUID) {
+        fetchTasks()
         
+        guard let taskIndex = fetchedTasks.firstIndex(where: { $0.id == id }) else { return }
+        fetchedTasks[taskIndex].isCompleted.toggle()
         do {
-            let fetchedTasks = try context.fetch(fetchRequest)
-            if let taskEntityToDelete = fetchedTasks.first {
-                self.context.delete(taskEntityToDelete)
-                try self.context.save()
-            }
+            try self.context.save()
         } catch {
-            fatalError("Catn save the data in context")
+            fatalError("Cant change task status")
         }
-        fetchTasks()
-    }
-    
-    func updateTaskStatus(id: Int) {
-        let fetchRequest: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id == %d", Int64(id))
-        do {
-            let fetchedTasks = try context.fetch(fetchRequest)
-            if let taskEntity = fetchedTasks.first {
-                taskEntity.isCompleted.toggle()
-                try self.context.save()
-            }
-        } catch {
-            fatalError("Cant update task status")
-        }
-        fetchTasks()
     }
     
     func rearrengeTasks(firstTaskId: Int, secondTaskId: Int) {
-        self.tasks = try! context.fetch(TaskEntity.fetchRequest()).map({ Task(taskEntity: $0) })
-        var foo = try! context.fetch(TaskEntity.fetchRequest())
-
-        guard let firstIndex = self.tasks.firstIndex(where: { $0.id == firstTaskId }) else { return }
-        guard let secondIndex = self.tasks.firstIndex(where: { $0.id == secondTaskId }) else { return }
-
-        foo.swapAt(firstIndex, secondIndex)
-        for id in 0..<tasks.count {
-            foo[id].id = Int64(tasks[id].id)
-        }
-        foo.forEach{ print( $0 ) }
-        foo.sort(by: { $0.id < $1.id })
-        try! self.context.save()
         fetchTasks()
+        
+        let sourceTask = self.fetchedTasks.remove(at: firstTaskId)
+        self.fetchedTasks.insert(sourceTask, at: secondTaskId)
+        
+        for task in fetchedTasks {
+            task.actionDate = Date()
+        }
+        
+        try! self.context.save()
     }
-
-    private func createObject(id: Int64, title: String, description: String?) {
+    
+    private func createObject(id: UUID, title: String, description: String?) {
         let newTask = TaskEntity(context: self.context)
-        newTask.id = Int64(Task.currentMaxId)
+        newTask.id = id
         newTask.title = title
         newTask.taskDescription = description
         newTask.isCompleted = false
+        newTask.actionDate = Date()
         
         do {
             try self.context.save()
@@ -107,8 +92,8 @@ final class StorageRepoImp: StorageRepo {
     
     private func fetchTasks() {
         do {
-            self.tasks = try context.fetch(TaskEntity.fetchRequest()).map{ Task(taskEntity: $0) }
-            self.tasks.sort(by: { $0.id < $1.id })
+            self.fetchedTasks = try context.fetch(TaskEntity.fetchRequest())
+            self.fetchedTasks.sort(by: { $0.actionDate! < $1.actionDate! })
         } catch {
             fatalError("Can't fetch data from core data")
         }
