@@ -175,6 +175,7 @@ extension TaskListViewController: UITableViewDataSource {
         ? tableView.reloadData()
         : presenter.rearrengeTasks(firstId: sourceIndexPath.row,
                                    secondId: destinationIndexPath.row)
+
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
