@@ -14,21 +14,16 @@ final class StorageRepoImp: StorageRepo {
     private var fetchedTasks = [TaskEntity]()
     private var id = 0
     
-    init() {
-        fetchTasks()
-    }
-    
     func addTask(task: Task) {
         createObject(id: task.id, title: task.title, description: task.description)
-        fetchTasks()
     }
     
     func getTasks() -> [Task] {
-        return fetchedTasks.map({ Task(taskEntity: $0) })
+        fetchTasks()
+        return fetchedTasks.map{ Task(taskEntity: $0) }
     }
     
     func editTask(id: UUID, title: String, description: String?) {
-        fetchTasks()
         guard let taskIndex = fetchedTasks.firstIndex(where: { $0.id == id } ) else { return }
         fetchedTasks[taskIndex].title = title
         fetchedTasks[taskIndex].taskDescription = description
@@ -47,11 +42,9 @@ final class StorageRepoImp: StorageRepo {
         } catch {
             fatalError("Cant delete the task")
         }
-        fetchTasks()
     }
     
     func updateTaskStatus(id: UUID) {
-        fetchTasks()
         
         guard let taskIndex = fetchedTasks.firstIndex(where: { $0.id == id }) else { return }
         fetchedTasks[taskIndex].isCompleted.toggle()
@@ -63,7 +56,6 @@ final class StorageRepoImp: StorageRepo {
     }
     
     func rearrengeTasks(firstTaskId: Int, secondTaskId: Int) {
-        fetchTasks()
         
         let sourceTask = self.fetchedTasks.remove(at: firstTaskId)
         self.fetchedTasks.insert(sourceTask, at: secondTaskId)

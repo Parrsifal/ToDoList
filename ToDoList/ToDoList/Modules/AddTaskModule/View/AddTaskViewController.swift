@@ -73,7 +73,7 @@ final class AddTaskViewController: UIViewController, AddTaskView {
         presenter.setUpScreenMode()
     }
      
-    private func setupTextFields() { 
+    private func setupTextFields() {
         titleTextField.placeholder = String.localized(text: "Enter you title...")
         configureTextFieldsStyle(textField: titleTextField)
         descriptionTextField.placeholder = String.localized(text: "Enter an optionl description...")
