@@ -22,15 +22,15 @@ final class TaskManagerServiceImp: TaskManagerService {
         storage.addTask(task: task)
     }
     
-    func deleteTask(id: Int) {
+    func deleteTask(id: UUID) {
         storage.deleteTask(id: id)
     }
     
-    func updateTaskStatus(id: Int) {
+    func updateTaskStatus(id: UUID) {
         storage.updateTaskStatus(id: id)
     }
     
-    func editTask(id: Int, title: String, description: String?) {
+    func editTask(id: UUID, title: String, description: String?) {
         storage.editTask(id: id, title: title, description: description)
     }
     

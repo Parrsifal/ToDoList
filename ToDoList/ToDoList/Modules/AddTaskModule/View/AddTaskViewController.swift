@@ -36,15 +36,15 @@ final class AddTaskViewController: UIViewController, AddTaskView {
     }
     
     func setUpEditScreenMode(title: String, description: String?){
-        self.title = "Edit task"
-        self.createTaskButton.setTitle("Save task", for: .normal)
+        self.title = String.localized(text: "Edit task")
+        self.createTaskButton.setTitle(String.localized(text: "Save task"), for: .normal)
         self.descriptionTextField.text = description
         self.titleTextField.text = title
     }
     
     func setUpAddScreenMode() {
-        self.title = "Add task"
-        self.createTaskButton.setTitle("Add task", for: .normal)
+        self.title = String.localized(text: "Add task")
+        self.createTaskButton.setTitle(String.localized(text: "Add task"), for: .normal)
     }
     
     func showButton(isHidden: Bool) {
@@ -74,7 +74,9 @@ final class AddTaskViewController: UIViewController, AddTaskView {
     }
      
     private func setupTextFields() {
+        titleTextField.placeholder = String.localized(text: "Enter you title...")
         configureTextFieldsStyle(textField: titleTextField)
+        descriptionTextField.placeholder = String.localized(text: "Enter an optionl description...")
         configureTextFieldsStyle(textField: descriptionTextField)
     }
     

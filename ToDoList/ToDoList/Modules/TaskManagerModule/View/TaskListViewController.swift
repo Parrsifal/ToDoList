@@ -29,7 +29,6 @@ final class TaskListViewController: UIViewController, TaskListView {
     override func viewDidLoad() {
         super.viewDidLoad()
         backgroundImageView.image = UIImage(named: "cat")
-        backgroundImageView.isHidden = true
         
         setUpNavBar()
         setUpTableView()
@@ -46,12 +45,17 @@ final class TaskListViewController: UIViewController, TaskListView {
         taskListTableView.reloadData()
     }
     
-    @IBAction private func didTouchButton(_ sender: UIButton) {
+    func updateViewBackground(isHidden: Bool) {
+        taskListTableView.isHidden = isHidden
+        backgroundImageView.isHidden = !isHidden
+    }
+    
+    @IBAction private func buttonWasTapped(_ sender: UIButton) {
         coordinator.navigateToAddNewTaskVC(from: self, task: nil)
     }
     
     private func setUpBackButton() {
-        let backButton = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
+        let backButton = UIBarButtonItem(title: String.localized(text: "Back"), style: .plain, target: nil, action: nil)
         backButton.tintColor = .red
         navigationItem.backBarButtonItem = backButton
     }
@@ -122,18 +126,18 @@ final class TaskListViewController: UIViewController, TaskListView {
             title: nil) { [weak self]
                 (action, view, completionHandler) in
                 
-                let alert = UIAlertController(title: "Delete confirmation",
-                                              message: "Delete the task?",
+                let alert = UIAlertController(title: String.localized(text: "Delete Confirmation"),
+                                              message: String.localized(text: "Delete the task?"),
                                               preferredStyle: .alert)
                 
-                alert.addAction(UIAlertAction(title: "Yes",
+                alert.addAction(UIAlertAction(title: String.localized(text: "Yes"),
                                               style: .default,
                                               handler: { _ in
                     self?.handleDeleteSwipe(task)
                     completionHandler(true)
                 }))
                 
-                alert.addAction(UIAlertAction(title: "No",
+                alert.addAction(UIAlertAction(title: String.localized(text: "No"),
                                               style: .cancel,
                                               handler: { _ in
                     completionHandler(false)
@@ -169,8 +173,9 @@ extension TaskListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         sourceIndexPath.section != destinationIndexPath.section
         ? tableView.reloadData()
-        : presenter.rearrengeTasks(firstId: tasksList[sourceIndexPath.section][sourceIndexPath.row].id,
-                                   secondId: tasksList[destinationIndexPath.section][destinationIndexPath.row].id)
+        : presenter.rearrengeTasks(firstId: sourceIndexPath.row,
+                                   secondId: destinationIndexPath.row)
+
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -232,7 +237,9 @@ extension TaskListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 40))
         let headerLabel = UILabel(frame: CGRect(x: 0, y: -8, width: tableView.frame.width, height: 30))
-        headerLabel.text = section == 0 ? "Active" : "Completed"
+        headerLabel.text = section == 0
+        ? String.localized(text: "Active")
+        : String.localized(text: "Completed")
         headerLabel.font = UIFont.boldSystemFont(ofSize: 24)
         headerLabel.textColor = .black
         headerView.addSubview(headerLabel)
@@ -247,7 +254,7 @@ extension TaskListViewController: UITableViewDelegate {
 
 extension TaskListViewController: NavigationBarSetup {
     func setUpNavBar() {
-        self.title = "Task Manager"
+        self.title = String.localized(text: "Task Manager")
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.prefersLargeTitles = true
@@ -256,11 +263,11 @@ extension TaskListViewController: NavigationBarSetup {
 }
 
 extension TaskListViewController: TaskTableViewCellDelegate {
-    func didTouchStatusButton(id: Int) {
+    func didTouchStatusButton(id: UUID) {
         presenter.updateTaskStatus(id: id)
     }
     
-    func didSelectCell(id: Int) {
+    func didSelectCell(id: UUID) {
         coordinator.navigateToAddNewTaskVC(from: self,
                                            task: tasksList.flatMap { $0 }.first(where: { $0.id == id }))
     }

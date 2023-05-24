@@ -9,4 +9,5 @@ import Foundation
 
 protocol TaskListView : AnyObject {
     func updateTaskListData(tasks: [[Task]])
+    func updateViewBackground(isHidden: Bool)
 }

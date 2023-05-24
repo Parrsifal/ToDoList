@@ -5,53 +5,89 @@
 //  Created by Dmitrii Sorochin on 12.05.2023.
 //
 
-import Foundation
+import CoreData
+import UIKit
 
 final class StorageRepoImp: StorageRepo {
     
-    private var tasks: [Task] = []
+    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private var fetchedTasks = [TaskEntity]()
     private var id = 0
     
-    init() {
-        populateTasks()
-    }
-    
     func addTask(task: Task) {
-        tasks.append(task)
+        createObject(id: task.id, title: task.title, description: task.description)
     }
     
     func getTasks() -> [Task] {
-        return tasks
+        fetchTasks()
+        return fetchedTasks.map{ Task(taskEntity: $0) }
     }
     
-    func editTask(id: Int, title: String, description: String?) {
-        if let taskIndex = tasks.firstIndex(where: { $0.id == id } ) {
-            tasks[taskIndex].title = title
-            tasks[taskIndex].description = description
+    func editTask(id: UUID, title: String, description: String?) {
+        guard let taskIndex = fetchedTasks.firstIndex(where: { $0.id == id } ) else { return }
+        fetchedTasks[taskIndex].title = title
+        fetchedTasks[taskIndex].taskDescription = description
+        do {
+            try self.context.save()
+        } catch {
+            fatalError("Cant edit the task")
         }
     }
     
-    func deleteTask(id: Int) {
-        tasks.removeAll(where: { $0.id == id })
+    func deleteTask(id: UUID) {
+        guard let taskToDelete = fetchedTasks.first(where: { $0.id == id }) else { return }
+        do {
+            self.context.delete(taskToDelete)
+            try self.context.save()
+        } catch {
+            fatalError("Cant delete the task")
+        }
     }
     
-    func updateTaskStatus(id: Int) {
-        if let taskIndex = tasks.firstIndex(where: { $0.id == id }){
-            tasks[taskIndex].isCompleted.toggle()
+    func updateTaskStatus(id: UUID) {
+        
+        guard let taskIndex = fetchedTasks.firstIndex(where: { $0.id == id }) else { return }
+        fetchedTasks[taskIndex].isCompleted.toggle()
+        do {
+            try self.context.save()
+        } catch {
+            fatalError("Cant change task status")
         }
     }
     
     func rearrengeTasks(firstTaskId: Int, secondTaskId: Int) {
-        guard let firstTask = tasks.firstIndex(where: { $0.id == firstTaskId }) else { return }
-        guard let secondTask = tasks.firstIndex(where: { $0.id == secondTaskId }) else { return }
-
-        tasks.swapAt(firstTask, secondTask)
+        
+        let sourceTask = self.fetchedTasks.remove(at: firstTaskId)
+        self.fetchedTasks.insert(sourceTask, at: secondTaskId)
+        
+        for task in fetchedTasks {
+            task.actionDate = Date()
+        }
+        
+        try! self.context.save()
     }
-}
-
-extension StorageRepoImp {
-    private func populateTasks() {
-        tasks.append(Task(title: "Wake up broo", description: "Dont sleep again!!!"))
-        tasks.append(Task(title: "Hello"))
+    
+    private func createObject(id: UUID, title: String, description: String?) {
+        let newTask = TaskEntity(context: self.context)
+        newTask.id = id
+        newTask.title = title
+        newTask.taskDescription = description
+        newTask.isCompleted = false
+        newTask.actionDate = Date()
+        
+        do {
+            try self.context.save()
+        } catch {
+            fatalError("Catn save the data in context")
+        }
+    }
+    
+    private func fetchTasks() {
+        do {
+            self.fetchedTasks = try context.fetch(TaskEntity.fetchRequest())
+            self.fetchedTasks.sort(by: { $0.actionDate! < $1.actionDate! })
+        } catch {
+            fatalError("Can't fetch data from core data")
+        }
     }
 }
