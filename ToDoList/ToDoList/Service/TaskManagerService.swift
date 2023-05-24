@@ -8,7 +8,6 @@
 import Foundation
 
 protocol TaskManagerService {
-    var storage: StorageRepo { get set }
     func getTasks() -> [Task]
     func deleteTask(id: UUID)
     func updateTaskStatus(id: UUID)
@@ -16,4 +15,3 @@ protocol TaskManagerService {
     func addTask(task: Task)
     func rearrengeTasks(firstTaskId: Int, secondTaskId: Int)
 }
-

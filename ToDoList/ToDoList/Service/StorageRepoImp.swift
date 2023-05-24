@@ -10,13 +10,20 @@ import UIKit
 
 final class StorageRepoImp: StorageRepo {
     
-    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let context: NSManagedObjectContext!
+    let container: NSPersistentContainer?
     private var fetchedTasks = [TaskEntity]()
     private var id = 0
     
     func addTask(task: Task) {
         createObject(id: task.id, title: task.title, description: task.description)
     }
+    
+    init(container: NSPersistentContainer) {
+        self.container = container
+        self.context = container.viewContext
+    }
+
     
     func getTasks() -> [Task] {
         fetchTasks()
